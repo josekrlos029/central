@@ -65,14 +65,26 @@ function cargarPedidios() {
     var data = {
         idRestaurante: idRestaurante
     };
-    var url = "http://tudomicilio.liceogalois.com/restaurante/domicilios";
+    var url = "http://tudomicilio.liceogalois.com/restaurante/listaDomicilios";
     //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
     $.ajax({
         type: "POST",
         url: url,
         data: data
     }).done(function(msg) {
-
+        $("#contenido").html(msg);
+        setTimeout(function() {
+            $('#lista1').trigger('create');
+            $('#lista2').trigger('create');
+            
+            $("#uno").click();
+            $("#two").hide();
+            
+            //$('.boton').button('refresh');
+            $(".l1").trigger('create');
+            $(".l2").trigger('create');
+            $.mobile.loading("hide");
+        }, 1000);
 
     });
 

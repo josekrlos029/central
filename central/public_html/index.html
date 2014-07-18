@@ -46,7 +46,7 @@ and open the template in the editor.
             var mapa;
             function onDeviceReady() {
 
-                
+                 
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -60,7 +60,7 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-                
+                cargarPedidios();
                 $("#mapa").height($(document).height() - $("#header").height());
                 $("#contenedor").height($(document).height() - $("#header").height());
                 var tamContenedor = $(document).width()/3.5;
@@ -223,7 +223,7 @@ and open the template in the editor.
                 var data = {
                     idRestaurante: idRestaurante
                 };
-                var url = "http://tudomicilio.liceogalois.com/restaurante/domicilios2";
+                var url = "http://tudomicilio.liceogalois.com/restaurante/domicilios3";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
@@ -251,7 +251,17 @@ and open the template in the editor.
             </div><!-- /panel -->
             <div role="main" class="ui-content" style="padding: 0">                
                 <div id="mapa" style="width: 100%; float: left"></div>
-                <div id="contenedor" style="float: right">.................</div>
+                <div id="contenedor" style="float: right">
+                    <div data-role="tabs" id="tabs">
+                        <div data-role="navbar" id="nav">
+                            <ul>
+                                <li><a style="font-size: 11px" id="uno" href="#one" data-ajax="false">Pendientes</a></li>
+                                <li><a style="font-size: 11px" href="#two" data-ajax="false">Listos</a></li>
+                            </ul>
+                        </div>
+                        <div id="contenido"></div>
+                    </div>
+                </div>
             </div>
 
         </div>
