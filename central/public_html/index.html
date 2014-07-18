@@ -191,7 +191,7 @@ and open the template in the editor.
                     zoomControl: true,
                     panControl: false,
                     streetViewControl: true,
-                    mapTypeControl: false
+                    mapTypeControl: true
                 });
 
                 mapa.addMarker({
@@ -266,6 +266,7 @@ and open the template in the editor.
                     }
 
                 });
+                
                 mapa.drawRoute({
                     origin: [latR, lngR],
                     destination: [latU, lngU],
