@@ -26,7 +26,7 @@ and open the template in the editor.
             document.addEventListener("backbutton", onBackKeyDown, false);
 
             function onBackKeyDown() {
-                
+
 
                 navigator.notification.confirm(
                         'Deseas salir de la aplicación ?', // message
@@ -36,18 +36,28 @@ and open the template in the editor.
                         );
 
             }
-            
+
             function onConfirm(buttonIndex) {
-                 if(buttonIndex==1){
-                     navigator.app.exitApp();
-                 }
+                if (buttonIndex == 1) {
+                    navigator.app.exitApp();
+                }
             }
 
-            var mapa, lng, lat;
-
-            function onDeviceReady() {
+            var mapa;
+            $(document).ready(function(){
+                $("#mapa").height($(document).height() - $("#header").height());
+                $("#contenedor").height($(document).height() - $("#header").height());
+                var tamContenedor = $(document).width()/3.5;
+                $("#contenedor").width(tamContenedor);
+                $("#mapa").width($(document).width() - tamContenedor);
+                var lat = '10.465874';
+                var lng = '-73.253153';
+                ubicarMapa(lat, lng);
                 
-                $("#mapa").height($(document).height());
+            });
+            function onDeviceReady() {
+
+                
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -62,17 +72,16 @@ and open the template in the editor.
                     html: html
                 });
                 
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                    cargarPedidios();
-                    ubicarMapa(lat, lng);
-                    
-                }, function() {
-                    alert("Error al Obtener la Posición de su dispositivo, intente activar el GPS !");
-                    location.href = "index.html";
-                }, {enableHighAccuracy: true});
-                
+                $("#mapa").height($(document).height() - $("#header").height());
+                $("#contenedor").height($(document).height() - $("#header").height());
+                var tamContenedor = $(document).width()/3.5;
+                $("#contenedor").width(tamContenedor);
+                $("#mapa").width($(document).width() - tamContenedor);
+                var lat = '10.465874';
+                var lng = '-73.253153';
+                ubicarMapa(lat, lng);
+
+
                 var pushNotification = window.plugins.pushNotification;
 
                 if (device.platform == 'android' || device.platform == 'Android')
@@ -99,7 +108,7 @@ and open the template in the editor.
                 }
 
             }
-            
+
             function tokenHandler(result) {
                 // Your iOS push server needs to know the token before it can push to this device
                 // here is where you might want to send it the token for later use.
@@ -182,34 +191,68 @@ and open the template in the editor.
                     pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
                 }
             }
-            
+
             function ubicarMapa(lat, lng) {
-                
+
                 mapa = new GMaps({
                     div: '#mapa',
                     lat: lat,
                     lng: lng,
-                    zoom: 13,
+                    zoom: 14,
                     zoomControl: false,
                     panControl: false,
                     streetViewControl: false,
                     mapTypeControl: false
                 });
-                
+
                 mapa.addMarker({
-                    lat: lat,
-                    lng: lng,
+                    lat: '10.4662381',
+                    lng: '-73.2398651',
                     title: 'Ubicación de la Central',
                     animation: google.maps.Animation.DROP
                 });
+
+                ubicarPedidos();
+
             }
-            
+
+            function ubicarPedidos() {
+                var $this = $(this),
+                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                        textonly = !!$this.jqmData("textonly");
+                html = $this.jqmData("html") || "";
+                $.mobile.loading("show", {
+                    text: msgText,
+                    textVisible: textVisible,
+                    theme: theme,
+                    textonly: textonly,
+                    html: html
+                });
+
+                var data = {
+                    idRestaurante: idRestaurante
+                };
+                var url = "http://tudomicilio.liceogalois.com/restaurante/domicilios2";
+                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data
+                }).done(function(msg) {
+
+                    
+                });
+
+            }
+
         </script>
     </head>
     <body>
         <div data-role="page" id="pagina">
 
-            <div data-role="header" data-position="fixed" data-fullscreen="false">
+            <div data-role="header" id="header" data-position="fixed" data-fullscreen="false">
                 <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
                 <h3>Tu Domicilio</h3>
                 <a href="#" onclick="cargarPedidios()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
@@ -217,8 +260,9 @@ and open the template in the editor.
             <div data-role="panel" data-display="overlay" id="menu">
                 <p>Menù !</p>
             </div><!-- /panel -->
-            <div role="main" class="ui-content">                
-                <div id="mapa"></div>
+            <div role="main" class="ui-content" style="padding: 0">                
+                <div id="mapa" style="width: 100%; float: left"></div>
+                <div id="contenedor" style="float: right">.................</div>
             </div>
 
         </div>
