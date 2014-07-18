@@ -44,17 +44,6 @@ and open the template in the editor.
             }
 
             var mapa;
-            $(document).ready(function(){
-                $("#mapa").height($(document).height() - $("#header").height());
-                $("#contenedor").height($(document).height() - $("#header").height());
-                var tamContenedor = $(document).width()/3.5;
-                $("#contenedor").width(tamContenedor);
-                $("#mapa").width($(document).width() - tamContenedor);
-                var lat = '10.465874';
-                var lng = '-73.253153';
-                ubicarMapa(lat, lng);
-                
-            });
             function onDeviceReady() {
 
                 
