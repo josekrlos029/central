@@ -8,21 +8,13 @@
 
 function update() {
 
-    var idRestaurante = localStorage.getItem("idRestaurante");
     var regid = localStorage.getItem("regId");
-    if (regid != "" && regid != null) {
-        var data = {
-            regId: regid,
-            idRestaurante: idRestaurante
-        };
-    }else{
-        var data = {
-            token: localStorage.getItem("token"),
-            idRestaurante: idRestaurante
-        };
-    }
 
-    var url = "http://tudomicilio.liceogalois.com/restaurante/updateRegId";
+    var data = {
+        regId: regid,
+    };
+
+    var url = "http://tudomicilio.liceogalois.com/restaurante/updateRegIdCentral";
     //var url = "http://192.168.1.33/domicilios/restaurante/updateRegId";
     $.ajax({
         type: "POST",
@@ -76,10 +68,10 @@ function cargarPedidios() {
         setTimeout(function() {
             $('#lista1').trigger('create');
             $('#lista2').trigger('create');
-            
+
             $("#uno").click();
             $("#two").hide();
-            
+
             //$('.boton').button('refresh');
             $(".l1").trigger('create');
             $(".l2").trigger('create');
