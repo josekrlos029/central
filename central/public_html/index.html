@@ -133,7 +133,7 @@ and open the template in the editor.
                             //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
 
                             // if the notification contains a soundname, play it.
-                            alert("Tienes un Nuevo Pedido");
+                            alert(e.payload.message);
                             cargarPedidios();
                             ubicarPedidos();
                             
