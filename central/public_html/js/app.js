@@ -11,7 +11,7 @@ function update() {
     var regid = localStorage.getItem("regId");
 
     var data = {
-        regId: regid,
+        regId: regid
     };
 
     var url = "http://tudomicilio.liceogalois.com/restaurante/updateRegIdCentral";

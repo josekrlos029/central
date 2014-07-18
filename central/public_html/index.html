@@ -133,18 +133,25 @@ and open the template in the editor.
                             //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
 
                             // if the notification contains a soundname, play it.
-
+                            alert("Tienes un Nuevo Pedido");
+                            cargarPedidios();
+                            ubicarPedidos();
+                            
                         }
                         else
                         {  // otherwise we were launched because the user touched a notification in the notification tray.
+                            
                             if (e.coldstart)
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
-
+                                cargarPedidios();
+                                ubicarPedidos();
                             }
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
+                                cargarPedidios();
+                                ubicarPedidos();
                             }
                         }
                         //alert(e.payload.message + ",  " + e.payload.otro ); 
@@ -160,7 +167,7 @@ and open the template in the editor.
                         //$("#app-status-ul").append('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
                         break;
                 }
-
+                
             }
 
             function onNotificationAPN(event) {
@@ -259,9 +266,6 @@ and open the template in the editor.
                     animation: google.maps.Animation.DROP,
                     click: function(e) {
 
-                    },
-                    infoWindow: {
-                        content: '<p><button>...</button></p>'
                     }
 
                 });
@@ -273,9 +277,6 @@ and open the template in the editor.
                     animation: google.maps.Animation.DROP,
                     click: function(e) {
 
-                    },
-                    infoWindow: {
-                        content: '<p><button>..</button></p>'
                     }
 
                 });
@@ -290,6 +291,11 @@ and open the template in the editor.
                 });
 
             }
+            
+            function act(){
+                ubicarPedidos();
+                cargarPedidios();
+            }
 
         </script>
     </head>
@@ -298,7 +304,7 @@ and open the template in the editor.
             <div data-role="header" id="header" data-position="fixed" data-fullscreen="false">
                 <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
                 <h3>Tu Domicilio</h3>
-                <a href="#" onclick="cargarPedidios()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
+                <a href="#" onclick="act()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
             </div>
 
             <div data-role="panel" data-display="overlay" id="menu">
