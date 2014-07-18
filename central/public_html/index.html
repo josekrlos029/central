@@ -46,7 +46,6 @@ and open the template in the editor.
             var mapa;
             function onDeviceReady() {
 
-
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -60,16 +59,6 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-                cargarPedidios();
-                $("#mapa").height($(document).height() - $("#header").height());
-                $("#contenedor").height($(document).height() - $("#header").height());
-                var tamContenedor = $(document).width() / 3.5;
-                $("#contenedor").width(tamContenedor);
-                $("#mapa").width($(document).width() - tamContenedor);
-                var lat = '10.465874';
-                var lng = '-73.253153';
-                ubicarMapa(lat, lng);
-
 
                 var pushNotification = window.plugins.pushNotification;
 
@@ -96,6 +85,16 @@ and open the template in the editor.
                             });
                 }
 
+                cargarPedidios();
+                $("#mapa").height($(document).height() - $("#header").height());
+                $("#contenedor").height($(document).height() - $("#header").height());
+                var tamContenedor = $(document).width() / 3.5;
+                $("#contenedor").width(tamContenedor);
+                $("#mapa").width($(document).width() - tamContenedor);
+                var lat = '10.465874';
+                var lng = '-73.253153';
+                ubicarMapa(lat, lng);
+
             }
 
             function tokenHandler(result) {
@@ -106,7 +105,7 @@ and open the template in the editor.
 
 
             function successHandler(result) {
-                //alert('result = ' + result);
+                alert('result = ' + result);
             }
 
             function errorHandler(error) {
@@ -221,25 +220,37 @@ and open the template in the editor.
                     html: html
                 });
 
-                var data = {
-                    idRestaurante: idRestaurante
-                };
                 var url = "http://tudomicilio.liceogalois.com/restaurante/listaDomicilios2";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
                     url: url,
-                    data: data
+                    data: {}
                 }).done(function(msg) {
-                    
-                    
+                    mapa.removeMarkers();
+                    var json = eval("(" + msg + ")");
+                    for (var i = 0; i < json.pendientes.length; i++) {
+                        mapa.addMarker({
+                            lat: json.pendientes[i].latRestaurante,
+                            lng: json.pendientes[i].lngRestaurante,
+                            title: json.pendientes[i].nombreRestaurante,
+                            animation: google.maps.Animation.DROP,
+                            click: function(e) {
+
+                            },
+                            infoWindow: {
+                                content: '<h3>'+json.pendientes[i].nombreRestaurante+'</h3><p><b>Dirección: </b>'+json.pendientes[i].direccion+'</p><p><b>Referencia: </b>'+json.pendientes[i].referencia+'</p>'
+                            }
+
+                        });
+                    }
                     $.mobile.loading("hide");
 
                 });
 
             }
-            
-            function verEnMapa(latR, lngR, latU, lngU){
+
+            function verEnMapa(latR, lngR, latU, lngU) {
                 mapa.removeMarkers();
                 mapa.addMarker({
                     lat: latR,
@@ -247,7 +258,7 @@ and open the template in the editor.
                     title: 'Restaurante',
                     animation: google.maps.Animation.DROP,
                     click: function(e) {
-                       
+
                     },
                     infoWindow: {
                         content: '<p><button>...</button></p>'
@@ -261,14 +272,14 @@ and open the template in the editor.
                     title: 'Usuario',
                     animation: google.maps.Animation.DROP,
                     click: function(e) {
-                       
+
                     },
                     infoWindow: {
                         content: '<p><button>..</button></p>'
                     }
 
                 });
-                
+
                 mapa.drawRoute({
                     origin: [latR, lngR],
                     destination: [latU, lngU],
@@ -277,7 +288,7 @@ and open the template in the editor.
                     strokeOpacity: 0.6,
                     strokeWeight: 6
                 });
-                
+
             }
 
         </script>
@@ -295,10 +306,11 @@ and open the template in the editor.
             </div><!-- /panel -->
 
             <div role="main" class="ui-content" style="padding: 0">
-                <div id="central"></div>
                 <div id="mapa" style="width: 100%; float: left"></div>
                 <div id="contenedor" style="float: right; overflow-y: scroll">
-                    <div data-role="tabs" id="tabs">
+                    <center><a href="#" onclick="ubicarPedidos()" class="ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-right boton">Ubicaciar Pedidos</a></center>
+                    <div id="central"></div>
+                    <div data-role="tabs" id="tabs"> 
                         <div data-role="navbar" id="nav">
                             <ul>
                                 <li><a style="font-size: 11px" id="uno" href="#one" data-ajax="false">Pendientes</a></li>
