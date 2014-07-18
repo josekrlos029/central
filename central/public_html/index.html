@@ -120,6 +120,7 @@ and open the template in the editor.
                     case 'registered':
                         if (e.regid.length > 0)
                         {
+                            alert(e.regid);
                             $("#central").append(e.regid); //localStorage.setItem("regId", e.regid);
                         }
                         break;
@@ -189,7 +190,7 @@ and open the template in the editor.
                     lng: lng,
                     zoom: 14,
                     zoomControl: true,
-                    panControl: false,
+                    panControl: true,
                     streetViewControl: true,
                     mapTypeControl: true
                 });
@@ -231,6 +232,7 @@ and open the template in the editor.
                     data: data
                 }).done(function(msg) {
                     
+                    
                     $.mobile.loading("hide");
 
                 });
@@ -238,7 +240,7 @@ and open the template in the editor.
             }
             
             function verEnMapa(latR, lngR, latU, lngU){
-                
+                mapa.removeMarkers();
                 mapa.addMarker({
                     lat: latR,
                     lng: lngR,
