@@ -46,7 +46,7 @@ and open the template in the editor.
             var mapa;
             function onDeviceReady() {
 
-                 
+
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -63,7 +63,7 @@ and open the template in the editor.
                 cargarPedidios();
                 $("#mapa").height($(document).height() - $("#header").height());
                 $("#contenedor").height($(document).height() - $("#header").height());
-                var tamContenedor = $(document).width()/3.5;
+                var tamContenedor = $(document).width() / 3.5;
                 $("#contenedor").width(tamContenedor);
                 $("#mapa").width($(document).width() - tamContenedor);
                 var lat = '10.465874';
@@ -120,7 +120,7 @@ and open the template in the editor.
                     case 'registered':
                         if (e.regid.length > 0)
                         {
-                            //localStorage.setItem("regId", e.regid);
+                            $("#central").append(e.regid); //localStorage.setItem("regId", e.regid);
                         }
                         break;
 
@@ -188,9 +188,9 @@ and open the template in the editor.
                     lat: lat,
                     lng: lng,
                     zoom: 14,
-                    zoomControl: false,
+                    zoomControl: true,
                     panControl: false,
-                    streetViewControl: false,
+                    streetViewControl: true,
                     mapTypeControl: false
                 });
 
@@ -223,35 +223,78 @@ and open the template in the editor.
                 var data = {
                     idRestaurante: idRestaurante
                 };
-                var url = "http://tudomicilio.liceogalois.com/restaurante/domicilios3";
+                var url = "http://tudomicilio.liceogalois.com/restaurante/listaDomicilios2";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: data
                 }).done(function(msg) {
-
                     
+                    $.mobile.loading("hide");
+
                 });
 
+            }
+            
+            function verEnMapa(latR, lngR, latU, lngU){
+                
+                mapa.addMarker({
+                    lat: latR,
+                    lng: lngR,
+                    title: 'Restaurante',
+                    animation: google.maps.Animation.DROP,
+                    click: function(e) {
+                       
+                    },
+                    infoWindow: {
+                        content: '<p><button>...</button></p>'
+                    }
+
+                });
+
+                mapa.addMarker({
+                    lat: latU,
+                    lng: lngU,
+                    title: 'Usuario',
+                    animation: google.maps.Animation.DROP,
+                    click: function(e) {
+                       
+                    },
+                    infoWindow: {
+                        content: '<p><button>..</button></p>'
+                    }
+
+                });
+                mapa.drawRoute({
+                    origin: [latR, lngR],
+                    destination: [latU, lngU],
+                    travelMode: 'driving',
+                    strokeColor: '#131540',
+                    strokeOpacity: 0.6,
+                    strokeWeight: 6
+                });
+                
             }
 
         </script>
     </head>
     <body>
         <div data-role="page" id="pagina">
-
             <div data-role="header" id="header" data-position="fixed" data-fullscreen="false">
                 <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
                 <h3>Tu Domicilio</h3>
                 <a href="#" onclick="cargarPedidios()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
             </div>
+
             <div data-role="panel" data-display="overlay" id="menu">
                 <p>Menù !</p>
             </div><!-- /panel -->
-            <div role="main" class="ui-content" style="padding: 0">                
+
+            <div role="main" class="ui-content" style="padding: 0">
+                <div id="central"></div>
                 <div id="mapa" style="width: 100%; float: left"></div>
-                <div id="contenedor" style="float: right">
+                <div id="contenedor" style="float: right; overflow-y: scroll">
                     <div data-role="tabs" id="tabs">
                         <div data-role="navbar" id="nav">
                             <ul>
