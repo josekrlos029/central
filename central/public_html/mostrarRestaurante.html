@@ -27,10 +27,10 @@ and open the template in the editor.
 
             function onBackKeyDown() {
 
-                 history.back();
+                history.back();
             }
 
-           
+
             var mapa;
             function onDeviceReady() {
 
@@ -67,15 +67,14 @@ and open the template in the editor.
                             tokenHandler,
                             errorHandler, {
                                 "badge": "true",
-                   
-                "sound": "true",
+                                "sound": "true",
                                 "alert": "true",
                                 "ecb": "onNotificationAPN"
                             });
                 }
 
                 cargarRestaurantes();
-                
+
             }
 
             function tokenHandler(result) {
@@ -115,11 +114,11 @@ and open the template in the editor.
 
                             // if the notification contains a soundname, play it.
                             alert("Tienes un nuevo pedido");
-                            
+
                         }
                         else
                         {  // otherwise we were launched because the user touched a notification in the notification tray.
-                            
+
                             if (e.coldstart)
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
@@ -128,7 +127,7 @@ and open the template in the editor.
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                               alert("Tienes un nuevo pedido");
+                                alert("Tienes un nuevo pedido");
                             }
                         }
                         //alert(e.payload.message + ",  " + e.payload.otro ); 
@@ -144,7 +143,7 @@ and open the template in the editor.
                         //$("#app-status-ul").append('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
                         break;
                 }
-                
+
             }
 
             function onNotificationAPN(event) {
@@ -165,7 +164,7 @@ and open the template in the editor.
                 }
             }
 
-            
+
             function cargarRestaurantes() {
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
@@ -180,7 +179,7 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-                
+
                 var url = "http://tudomicilio.liceogalois.com/restaurante/listaCategorias";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
@@ -190,16 +189,63 @@ and open the template in the editor.
                         idRestaurante: localStorage.getItem("idRestaurante")
                     }
                 }).done(function(msg) {
-                   
+
                     $("#cont").html(msg);
                     setTimeout(function() {
                         $('#lista').listview();
                         $('#lista').listview('refresh');
                         $.mobile.loading("hide");
                     }, 1000);
-                    
+
                 });
 
+            }
+
+            function mostrarProductos(id, nombre) {
+
+                var $this = $(this),
+                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                        textonly = !!$this.jqmData("textonly");
+                html = $this.jqmData("html") || "";
+                $.mobile.loading("show", {
+                    text: msgText,
+                    textVisible: textVisible,
+                    theme: theme,
+                    textonly: textonly,
+                    html: html
+                });
+                
+                $("#cat").text(nombre);
+                $("#idCategoria").val(id);
+
+                var url = "http://tudomicilio.liceogalois.com/restaurante/listaProductos";
+                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idCategoria: id
+                    }
+                }).done(function(msg) {
+
+                    $("#prod").html(msg);
+                    setTimeout(function() {
+                        $("#prod").show();
+                        $("#gestion").show();
+                        $('#lista2').listview();
+                        $('#lista2').listview('refresh');
+                        $.mobile.loading("hide");
+                    }, 1000);
+
+                });
+
+
+            }
+
+            function agregarProducto() {
+                
             }
 
             function mostrarRestaurante(idRestaurante) {
@@ -229,7 +275,26 @@ and open the template in the editor.
             <div role="main" class="ui-content">
                 <h3>Categorías</h3>
                 <div id="cont"></div>
-            </div>
+                <div id="gestion" hidden>
+                    <h4 id="cat"></h4>
+                    <h6>Agregar Producto</h6>
+                    <div class="ui-field-contain">
+                        <label for="nombre"><b>Nombre</b></label>
+                        <input type="text" name="nombre" id="nombre" value="">
+                    </div>
+                    <div class="ui-field-contain">
+                        <label for="descripcion"><b>Descripcion</b></label>
+                        <input type="text" name="descripcion" id="descripcion" value="">
+                    </div>
+                    <div class="ui-field-contain">
+                        <label for="precio"><b>Precio</b></label>
+                        <input type="number" name="precio" id="precio" value="">
+                    </div>
+                    <input type="hidden" id="idCategoria">
+                    <a style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" href="#" onclick="agregarProducto();" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-right">Agregar</a>
+                </div>
+                <div id="prod" hidden></div>
+            </div>  
 
         </div>
     </body>
