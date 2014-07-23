@@ -180,7 +180,7 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-
+                alert(localStorage.getItem("idRestaurante"));
                 var url = "http://tudomicilio.liceogalois.com/restaurante/listaCategorias";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
@@ -190,8 +190,7 @@ and open the template in the editor.
                         idRestaurante: localStorage.getItem("idRestaurante")
                     }
                 }).done(function(msg) {
-                    
-    
+                   alert(msg);
                     $("#cont").html(msg);
                     $("input[type='radio']").checkboxradio("refresh");
                     
