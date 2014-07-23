@@ -193,6 +193,7 @@ and open the template in the editor.
                    
                     $("#cont").html(msg);
                     setTimeout(function() {
+                        $('#lista').listview();
                         $('#lista').listview('refresh');
                         $.mobile.loading("hide");
                     }, 1000);
