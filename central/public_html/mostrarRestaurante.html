@@ -216,7 +216,7 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-                
+
                 $("#cat").text(nombre);
                 $("#idCategoria").val(id);
 
@@ -245,7 +245,46 @@ and open the template in the editor.
             }
 
             function agregarProducto() {
-                
+                var $this = $(this),
+                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                        textonly = !!$this.jqmData("textonly");
+                html = $this.jqmData("html") || "";
+                $.mobile.loading("show", {
+                    text: msgText,
+                    textVisible: textVisible,
+                    theme: theme,
+                    textonly: textonly,
+                    html: html
+                });
+
+                var nombre = $("#cat").text();
+                var idCategoria = $("#idCategoria").val();
+
+                var url = "http://tudomicilio.liceogalois.com/restaurante/guardarProducto";
+                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idCategoria: idCategoria,
+                        nombre: $("#nombre").val(),
+                        descripcion: $("#descripcion").val(),
+                        precio: $("#precio").val()
+                    }
+                }).done(function(msg) {
+                    var json = eval("(" + msg + ")");
+                    if (json.msj == "exito") {
+                        alert("Producto Agregado Correctamente");
+                        mostrarProductos(idCategoria, nombre);
+                    } else if (json.msj == "no") {
+                        alert("Error al guardar Producto, intenta nuevamente");
+                    } else {
+                        alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+                    }
+                });
+
             }
 
             function mostrarRestaurante(idRestaurante) {
@@ -275,9 +314,10 @@ and open the template in the editor.
             <div role="main" class="ui-content">
                 <h3>Categorías</h3>
                 <div id="cont"></div>
+                <br>
                 <div id="gestion" hidden>
-                    <h4 id="cat"></h4>
-                    <h6>Agregar Producto</h6>
+                    <center><h3 id="cat"></h3></center>
+                    <h4>Agregar Producto</h4>
                     <div class="ui-field-contain">
                         <label for="nombre"><b>Nombre</b></label>
                         <input type="text" name="nombre" id="nombre" value="">
@@ -293,6 +333,7 @@ and open the template in the editor.
                     <input type="hidden" id="idCategoria">
                     <a style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" href="#" onclick="agregarProducto();" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-right">Agregar</a>
                 </div>
+                <br>
                 <div id="prod" hidden></div>
             </div>  
 
