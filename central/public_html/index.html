@@ -234,6 +234,7 @@ and open the template in the editor.
                     url: url,
                     data: {}
                 }).done(function(msg) {
+                    mapa.removePolylines();
                     mapa.removeMarkers();
                     var json = eval("(" + msg + ")");
                     for (var i = 0; i < json.pendientes.length; i++) {
@@ -293,6 +294,7 @@ and open the template in the editor.
             }
             
             function act(){
+                
                 ubicarPedidos();
                 cargarPedidios();
             }
