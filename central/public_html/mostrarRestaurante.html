@@ -190,9 +190,12 @@ and open the template in the editor.
                         idRestaurante: localStorage.getItem("idRestaurante")
                     }
                 }).done(function(msg) {
-                   alert(msg);
+                   
                     $("#cont").html(msg);
-                    $("input[type='radio']").checkboxradio("refresh");
+                    setTimeout(function() {
+                        $("input[type='radio']").checkboxradio("refresh");
+                        $.mobile.loading("hide");
+                    }, 1000);
                     
                 });
 
