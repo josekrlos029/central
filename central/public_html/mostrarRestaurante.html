@@ -27,22 +27,10 @@ and open the template in the editor.
 
             function onBackKeyDown() {
 
-
-                navigator.notification.confirm(
-                        'Deseas salir de la aplicación ?', // message
-                        onConfirm, // callback to invoke with index of button pressed
-                        'Salir', // title
-                        ['Salir', 'Cancelar']     // buttonLabels
-                        );
-
+                 history.back();
             }
 
-            function onConfirm(buttonIndex) {
-                if (buttonIndex == 1) {
-                    navigator.app.exitApp();
-                }
-            }
-
+           
             var mapa;
             function onDeviceReady() {
 
@@ -79,22 +67,15 @@ and open the template in the editor.
                             tokenHandler,
                             errorHandler, {
                                 "badge": "true",
-                                "sound": "true",
+                   
+                "sound": "true",
                                 "alert": "true",
                                 "ecb": "onNotificationAPN"
                             });
                 }
 
-                cargarPedidios();
-                $("#mapa").height($(document).height() - $("#header").height());
-                $("#contenedor").height($(document).height() - $("#header").height());
-                var tamContenedor = $(document).width() / 3.5;
-                $("#contenedor").width(tamContenedor);
-                $("#mapa").width($(document).width() - tamContenedor);
-                var lat = '10.465874';
-                var lng = '-73.253153';
-                ubicarMapa(lat, lng);
-
+                cargarRestaurantes();
+                
             }
 
             function tokenHandler(result) {
@@ -133,9 +114,7 @@ and open the template in the editor.
                             //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
 
                             // if the notification contains a soundname, play it.
-                            alert(e.payload.message);
-                            cargarPedidios();
-                            ubicarPedidos();
+                            alert("Tienes un nuevo pedido");
                             
                         }
                         else
@@ -144,14 +123,12 @@ and open the template in the editor.
                             if (e.coldstart)
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                                cargarPedidios();
-                                ubicarPedidos();
+                                alert("Tienes un nuevo pedido");
                             }
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                                cargarPedidios();
-                                ubicarPedidos();
+                               alert("Tienes un nuevo pedido");
                             }
                         }
                         //alert(e.payload.message + ",  " + e.payload.otro ); 
@@ -188,31 +165,8 @@ and open the template in the editor.
                 }
             }
 
-            function ubicarMapa(lat, lng) {
-
-                mapa = new GMaps({
-                    div: '#mapa',
-                    lat: lat,
-                    lng: lng,
-                    zoom: 14,
-                    zoomControl: true,
-                    panControl: true,
-                    streetViewControl: true,
-                    mapTypeControl: true
-                });
-
-                mapa.addMarker({
-                    lat: '10.4662381',
-                    lng: '-73.2398651',
-                    title: 'Ubicación de la Central',
-                    animation: google.maps.Animation.DROP
-                });
-
-                ubicarPedidos();
-
-            }
-
-            function ubicarPedidos() {
+            
+            function cargarRestaurantes() {
                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
@@ -227,84 +181,38 @@ and open the template in the editor.
                     html: html
                 });
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/listaDomicilios2";
+                var url = "http://tudomicilio.liceogalois.com/restaurante/listaCategorias";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
                     url: url,
-                    data: {}
+                    data: {
+                        idRestaurante: localStorage.getItem("idRestaurante")
+                    }
                 }).done(function(msg) {
-                    mapa.removeMarkers();
-                    var json = eval("(" + msg + ")");
-                    for (var i = 0; i < json.pendientes.length; i++) {
-                        mapa.addMarker({
-                            lat: json.pendientes[i].latRestaurante,
-                            lng: json.pendientes[i].lngRestaurante,
-                            title: json.pendientes[i].nombreRestaurante,
-                            animation: google.maps.Animation.DROP,
-                            click: function(e) {
-
-                            },
-                            infoWindow: {
-                                content: '<h3>'+json.pendientes[i].nombreRestaurante+'</h3><p><b>Dirección: </b>'+json.pendientes[i].direccion+'</p><p><b>Referencia: </b>'+json.pendientes[i].referencia+'</p>'
-                            }
-
-                        });
-                    }
-                    $.mobile.loading("hide");
-
+                    
+    
+                    $("#cont").html(msg);
+                    $("input[type='radio']").checkboxradio("refresh");
+                    
                 });
 
             }
 
-            function verEnMapa(latR, lngR, latU, lngU) {
-                mapa.removeMarkers();
-                mapa.addMarker({
-                    lat: latR,
-                    lng: lngR,
-                    title: 'Restaurante',
-                    animation: google.maps.Animation.DROP,
-                    click: function(e) {
+            function mostrarRestaurante(idRestaurante) {
 
-                    }
-
-                });
-
-                mapa.addMarker({
-                    lat: latU,
-                    lng: lngU,
-                    title: 'Usuario',
-                    animation: google.maps.Animation.DROP,
-                    click: function(e) {
-
-                    }
-
-                });
-
-                mapa.drawRoute({
-                    origin: [latR, lngR],
-                    destination: [latU, lngU],
-                    travelMode: 'driving',
-                    strokeColor: '#131540',
-                    strokeOpacity: 0.6,
-                    strokeWeight: 6
-                });
+                localStorage.setItem("idRestaurante", idRestaurante);
+                location.href = "mostrarRestaurante.html";
 
             }
-            
-            function act(){
-                ubicarPedidos();
-                cargarPedidios();
-            }
-
         </script>
     </head>
     <body>
         <div data-role="page" id="pagina">
             <div data-role="header" id="header" data-position="fixed" data-fullscreen="false">
-                <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
+                <a href="#" style="border: none; background-color: #c5021a;  box-shadow: none; margin-top: 11px" onclick="atras()" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-carat-l ui-btn-icon-notext ui-btn-a ui-btn-inline">Atras</a>
                 <h3>Tu Domicilio</h3>
-                <a href="#" onclick="act()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
+                <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
             </div>
 
             <div data-role="panel" data-display="overlay" id="menu">
@@ -315,21 +223,9 @@ and open the template in the editor.
                 </ul>
             </div><!-- /panel -->
 
-            <div role="main" class="ui-content" style="padding: 0">
-                <div id="mapa" style="width: 100%; float: left"></div>
-                <div id="contenedor" style="float: right; overflow-y: scroll">
-                    <center><a href="#" onclick="ubicarPedidos()" class="ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-right boton">Ubicaciar Pedidos</a></center>
-                    <div id="central"></div>
-                    <div data-role="tabs" id="tabs"> 
-                        <div data-role="navbar" id="nav">
-                            <ul>
-                                <li><a style="font-size: 11px" id="uno" href="#one" data-ajax="false">Pendientes</a></li>
-                                <li><a style="font-size: 11px" href="#two" data-ajax="false">Listos</a></li>
-                            </ul>
-                        </div>
-                        <div id="contenido"></div>
-                    </div>
-                </div>
+            <div role="main" class="ui-content">
+                <h3>Categorías</h3>
+                <div id="cont"></div>
             </div>
 
         </div>

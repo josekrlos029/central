@@ -6,6 +6,10 @@
 // l -> Domicilio listo
 // r -> Recibida
 
+function atras() {
+    history.back();
+}
+
 function update() {
 
     var regid = localStorage.getItem("regId");
