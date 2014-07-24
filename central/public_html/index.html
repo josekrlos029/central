@@ -326,10 +326,68 @@ and open the template in the editor.
                         <div data-role="navbar" id="nav">
                             <ul>
                                 <li><a style="font-size: 11px" id="uno" href="#one" data-ajax="false">Pendientes</a></li>
-                                <li><a style="font-size: 11px" href="#two" data-ajax="false">Listos</a></li>
+                                <li><a style="font-size: 11px" href="#two" data-ajax="false">Aceptados</a></li>
+                                <li><a style="font-size: 11px" href="#three" data-ajax="false">Listos</a></li>
                             </ul>
                         </div>
                         <div id="contenido"></div>
+                    </div>
+                    <div data-role="popup" id="popupAceptar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close1" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
+                            <input type="hidden" value="" id="idAceptar">
+                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="aceptar()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
+                        </div>
+
+                    </div>
+
+                    <div data-role="popup" id="popupListo" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close4" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
+                            <input type="hidden" value="" id="idListo">
+                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="listo()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
+                        </div>
+
+                    </div>
+
+                    <div data-role="popup" id="popupRechazar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close2" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>¿Estas seguro de Rechazar la solicitud?</h3>
+                            <input type="hidden" value="" id="idRechazar">
+                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="rechazar()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
+                        </div>
+
+                    </div>
+                    <div data-role="popup" id="popupCancelar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close3" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>¿Estas seguro de Cancelar la solicitud?</h3>
+                            <input type="hidden" value="" id="idCancelar">
+                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="cancelar()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
+                        </div>
+
+                    </div>
+                    <div data-role="popup" id="popupEntregado" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close5" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>¿Estas seguro de Cancelar la solicitud?</h3>
+                            <input type="hidden" value="" id="idEntregado">
+                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="cancelar()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
+                        </div>
+
                     </div>
                 </div>
             </div>

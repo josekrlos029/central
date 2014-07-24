@@ -86,8 +86,28 @@ function cargarPedidios() {
 
 }
 
+function popAceptar(idDomicilio) {
+    $("#idAceptar").val(idDomicilio);
+}
+
+function popRechazar(idDomicilio) {
+    $("#idRechazar").val(idDomicilio);
+}
+
+function popCancelar(idDomicilio) {
+    $("#idCancelar").val(idDomicilio);
+}
+
+function popListo(idDomicilio) {
+    $("#idListo").val(idDomicilio);
+}
+
+function popListo(idDomicilio) {
+    $("#idEntregado").val(idEntregado);
+}
+
 function entregado() {
-    var idDomicilio = $("#idAceptar").val();
+    var idDomicilio = $("#idEntregado").val();
     var data = {
         idDomicilio: idDomicilio,
         estado: "e"
@@ -108,6 +128,123 @@ function entregado() {
         } else {
             alert("Error en el servidor, contactate con la empresa TuDomicilio ");
         }
+        $("#close5").click();
+        cargarPedidios();
+        ubicarPedidos();
+    });
+}
+
+function aceptar() {
+    var idDomicilio = $("#idAceptar").val();
+    var data = {
+        idDomicilio: idDomicilio,
+        estado: "a"
+    };
+    var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Aceptado, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+        $("#close1").click();
+        cargarPedidios();
+        ubicarPedidos();
+
+    });
+}
+
+function rechazar() {
+    var idDomicilio = $("#idRechazar").val();
+    var data = {
+        idDomicilio: idDomicilio,
+        estado: "n"
+    };
+    var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Rechazado, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+    });
+    $("#close2").click();
+    cargarPedidios();
+    ubicarPedidos();
+
+}
+
+function cancelar() {
+    var idDomicilio = $("#idCancelar").val();
+    var data = {
+        idDomicilio: idDomicilio,
+        estado: "c"
+    };
+    var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Cancelado, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+        $("#close3").click();
+        cargarPedidios();
+        ubicarPedidos();
+    });
+}
+
+function listo() {
+    var idDomicilio = $("#idListo").val();
+    var data = {
+        idDomicilio: idDomicilio,
+        estado: "l"
+    };
+    var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Listo, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+        $("#close4").click();
+        cargarPedidios();
+        ubicarPedidos();
 
     });
 }
