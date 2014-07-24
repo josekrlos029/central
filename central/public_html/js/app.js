@@ -72,7 +72,7 @@ function cargarPedidios() {
         setTimeout(function() {
             $('#lista1').trigger('create');
             $('#lista2').trigger('create');
-
+            $('#lista3').trigger('create');
             $("#uno").click();
             $("#two").hide();
             $("#three").hide();
