@@ -129,7 +129,7 @@ function entregado() {
 
         var json = eval("(" + msg + ")");
         if (json.msj == "exito") {
-            alert("Domicilio Aceptado, Se le notificará al cliente la novedad !");
+            alert("Exito, Se le notificará al cliente la novedad !");
         } else if (json.msj == "no") {
             alert("Error en el servidor, intenta nuevamente");
         } else {
