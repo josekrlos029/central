@@ -88,38 +88,37 @@ function cargarPedidios() {
 }
 
 function popAceptar(idDomicilio) {
-    alert(idDomicilio);
+    
     $("#idAceptar").val(idDomicilio);
 }
 
 function popRechazar(idDomicilio) {
-    alert(idDomicilio);
+    
     $("#idRechazar").val(idDomicilio);
 }
 
 function popCancelar(idDomicilio) {
-    alert(idDomicilio);
+    
     $("#idCancelar").val(idDomicilio);
 }
 
 function popListo(idDomicilio) {
-    alert(idDomicilio);
+    
     $("#idListo").val(idDomicilio);
 }
 
-function popListo(idDomicilio) {
-    alert(idDomicilio);
-    $("#idEntregado").val(idEntregado);
+function popEntregado(idDomicilio) {
+    $("#idEntregado").val(idDomicilio);
 }
 
 function entregado() {
+    
     var idDomicilio = $("#idEntregado").val();
     var data = {
         idDomicilio: idDomicilio,
         estado: "e"
     };
     
-    alert(idDomicilio);
     var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
     //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
     $.ajax({
@@ -234,7 +233,7 @@ function listo() {
         idDomicilio: idDomicilio,
         estado: "l"
     };
-    alert(idDomicilio);
+    
     var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
     //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
     $.ajax({
