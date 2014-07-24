@@ -88,22 +88,27 @@ function cargarPedidios() {
 }
 
 function popAceptar(idDomicilio) {
+    alert(idDomicilio);
     $("#idAceptar").val(idDomicilio);
 }
 
 function popRechazar(idDomicilio) {
+    alert(idDomicilio);
     $("#idRechazar").val(idDomicilio);
 }
 
 function popCancelar(idDomicilio) {
+    alert(idDomicilio);
     $("#idCancelar").val(idDomicilio);
 }
 
 function popListo(idDomicilio) {
+    alert(idDomicilio);
     $("#idListo").val(idDomicilio);
 }
 
 function popListo(idDomicilio) {
+    alert(idDomicilio);
     $("#idEntregado").val(idEntregado);
 }
 
