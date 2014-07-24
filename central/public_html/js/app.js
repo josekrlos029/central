@@ -75,6 +75,7 @@ function cargarPedidios() {
 
             $("#uno").click();
             $("#two").hide();
+            $("#three").hide();
 
             //$('.boton').button('refresh');
             $(".l1").trigger('create');
