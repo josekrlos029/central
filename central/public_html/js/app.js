@@ -113,6 +113,8 @@ function entregado() {
         idDomicilio: idDomicilio,
         estado: "e"
     };
+    
+    alert(idDomicilio);
     var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
     //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
     $.ajax({
@@ -227,6 +229,7 @@ function listo() {
         idDomicilio: idDomicilio,
         estado: "l"
     };
+    alert(idDomicilio);
     var url = "http://tudomicilio.liceogalois.com/restaurante/cambiarEstadoDomicilio";
     //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
     $.ajax({
