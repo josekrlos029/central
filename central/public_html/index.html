@@ -317,6 +317,22 @@ and open the template in the editor.
 
             }
             
+            function verEnMapa(latU, lngU) {
+                mapa.removeMarkers();
+                
+                mapa.addMarker({
+                    lat: latU,
+                    lng: lngU,
+                    title: 'Usuario',
+                    animation: google.maps.Animation.DROP,
+                    click: function(e) {
+
+                    }
+
+                });
+
+            }
+            
             function act(){
                 
                 ubicarPedidos();
