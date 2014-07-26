@@ -329,13 +329,35 @@ and open the template in the editor.
                     </div>
                     <div class="ui-field-contain">
                         <label for="precio"><b>Precio</b></label>
-                        <input type="text" name="precio" id="precio" value="">
+                        <input type="number" name="precio" id="precio" value="">
                     </div>
                     <input type="hidden" id="idCategoria">
                     <a style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" href="#" onclick="agregarProducto();" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-right">Agregar</a>
                 </div>
                 <br>
                 <div id="prod" hidden></div>
+                <div data-role="popup" id="popup" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                <div style="padding:10px 20px;">
+                    <a href="#" data-rel="back" id="close" onclick="" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <h3 id="titu" style="text-align: center"></h3>                        
+                    <p style="text-align: center" id="desc"></p>
+                    <p style="text-align: center; font-weight: bold" id="prec"></p>
+                    <div class="ui-field-contain">
+                        <label for="canti">Cantidad:</label>
+                        <input type="number" data-clear-btn="true" id="canti" name="canti" data-theme="a" value="">
+                    </div>
+                    <div class="ui-field-contain">
+                        <label for="indicaciones">Indicaciones:</label>
+                        <input type="text" data-clear-btn="true" id="indicaciones" placeholder="Ej: Sin cebolla" name="canti" data-theme="a" value="">
+                    </div>
+
+                    <input type="hidden" value="" id="idProducto">
+                    <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" id="btnPop" onclick="añadir()">Añadir</button>
+                    <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" id="btnEliminar" onclick="eliminar()">Quitar</button>
+                </div>
+
+            </div>
             </div>  
 
         </div>
