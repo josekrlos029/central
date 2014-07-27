@@ -133,40 +133,40 @@ and open the template in the editor.
                             //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
 
                             // if the notification contains a soundname, play it.
-                            if(e.payload.ubicacion == 'true'){
+                            if (e.payload.ubicacion == 'true') {
                                 ubicarMotos(e.payload.message);
-                            }else{
+                            } else {
                                 alert(e.payload.message);
                                 cargarPedidios();
                                 ubicarPedidos();
                             }
-                            
-                            
+
+
                         }
                         else
                         {  // otherwise we were launched because the user touched a notification in the notification tray.
-                            
+
                             if (e.coldstart)
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                                if(e.payload.ubicacion == 'true'){
-                                ubicarMotos(e.payload.message);
-                            }else{
-                                
-                                cargarPedidios();
-                                ubicarPedidos();
-                            }
+                                if (e.payload.ubicacion == 'true') {
+                                    ubicarMotos(e.payload.message);
+                                } else {
+
+                                    cargarPedidios();
+                                    ubicarPedidos();
+                                }
                             }
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                               if(e.payload.ubicacion == 'true'){
-                                ubicarMotos(e.payload.message);
-                            }else{
-                                
-                                cargarPedidios();
-                                ubicarPedidos();
-                            }
+                                if (e.payload.ubicacion == 'true') {
+                                    ubicarMotos(e.payload.message);
+                                } else {
+
+                                    cargarPedidios();
+                                    ubicarPedidos();
+                                }
                             }
                         }
                         //alert(e.payload.message + ",  " + e.payload.otro ); 
@@ -182,7 +182,7 @@ and open the template in the editor.
                         //$("#app-status-ul").append('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
                         break;
                 }
-                
+
             }
 
             function onNotificationAPN(event) {
@@ -214,13 +214,6 @@ and open the template in the editor.
                     panControl: true,
                     streetViewControl: true,
                     mapTypeControl: true
-                });
-
-                mapa.addMarker({
-                    lat: '10.4662381',
-                    lng: '-73.2398651',
-                    title: 'Ubicación de la Central',
-                    animation: google.maps.Animation.DROP
                 });
 
                 ubicarPedidos();
@@ -258,9 +251,9 @@ and open the template in the editor.
                             lng: json.pendientes[i].lngRestaurante,
                             title: json.pendientes[i].nombreRestaurante,
                             animation: google.maps.Animation.DROP,
-                            icon:  "recursos/marker-pendiente.png",
+                            icon: "recursos/marker-pendiente.png",
                             infoWindow: {
-                                content: '<h3>'+json.pendientes[i].nombreRestaurante+'</h3><p><b>Dirección: </b>'+json.pendientes[i].direccion+'</p><p><b>Referencia: </b>'+json.pendientes[i].referencia+'</p>'
+                                content: '<h3>' + json.pendientes[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.pendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.pendientes[i].referencia + '</p>'
                             }
 
                         });
@@ -271,9 +264,9 @@ and open the template in the editor.
                             lng: json.aceptados[i].lngRestaurante,
                             title: json.aceptados[i].nombreRestaurante,
                             animation: google.maps.Animation.DROP,
-                            icon:  "recursos/marker-aceptado.png",
+                            icon: "recursos/marker-aceptado.png",
                             infoWindow: {
-                                content: '<h3>'+json.aceptados[i].nombreRestaurante+'</h3><p><b>Dirección: </b>'+json.aceptados[i].direccion+'</p><p><b>Referencia: </b>'+json.aceptados[i].referencia+'</p>'
+                                content: '<h3>' + json.aceptados[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.aceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.aceptados[i].referencia + '</p>'
                             }
 
                         });
@@ -284,9 +277,9 @@ and open the template in the editor.
                             lng: json.listos[i].lngRestaurante,
                             title: json.listos[i].nombreRestaurante,
                             animation: google.maps.Animation.DROP,
-                            icon:  "recursos/marker-listo.png",
+                            icon: "recursos/marker-listo.png",
                             infoWindow: {
-                                content: '<h3>'+json.listos[i].nombreRestaurante+'</h3><p><b>Dirección: </b>'+json.listos[i].direccion+'</p><p><b>Referencia: </b>'+json.listos[i].referencia+'</p>'
+                                content: '<h3>' + json.listos[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.listos[i].direccion + '</p><p><b>Referencia: </b>' + json.listos[i].referencia + '</p>'
                             }
 
                         });
@@ -331,11 +324,17 @@ and open the template in the editor.
                 });
 
             }
-            
+
             function verEnMapa2(latU, lngU) {
                 mapa.removeMarkers();
                 
-                var mc = mapa.addMarker({
+                var myLatlng = new google.maps.LatLng(latU,lngU);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    title: "Hello World!"
+                });
+                marker.setMap(mapa);
+                /*var mc = mapa.addMarker({
                     lat: latU,
                     lng: lngU,
                     title: 'Usuario',
@@ -344,12 +343,11 @@ and open the template in the editor.
 
                     }
 
-                });
-                setTimeout(function(){mc.hide();}, 3000);
+                });*/
             }
-            
-            function act(){
-                
+
+            function act() {
+
                 ubicarPedidos();
                 cargarPedidios();
             }
@@ -467,7 +465,7 @@ and open the template in the editor.
                         </div>
 
                     </div>
-                    
+
                     <div data-role="popup" id="popupEntregado2" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
 
                         <div style="padding:10px 20px;">
