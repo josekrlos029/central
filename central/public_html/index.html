@@ -133,9 +133,14 @@ and open the template in the editor.
                             //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
 
                             // if the notification contains a soundname, play it.
-                            alert(e.payload.message);
-                            cargarPedidios();
-                            ubicarPedidos();
+                            if(e.payload.ubicacion == 'true'){
+                                ubicarMotos(e.payload.message);
+                            }else{
+                                alert(e.payload.message);
+                                cargarPedidios();
+                                ubicarPedidos();
+                            }
+                            
                             
                         }
                         else
@@ -144,14 +149,24 @@ and open the template in the editor.
                             if (e.coldstart)
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
+                                if(e.payload.ubicacion == 'true'){
+                                ubicarMotos(e.payload.message);
+                            }else{
+                                
                                 cargarPedidios();
                                 ubicarPedidos();
+                            }
                             }
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
+                               if(e.payload.ubicacion == 'true'){
+                                ubicarMotos(e.payload.message);
+                            }else{
+                                
                                 cargarPedidios();
                                 ubicarPedidos();
+                            }
                             }
                         }
                         //alert(e.payload.message + ",  " + e.payload.otro ); 
@@ -317,7 +332,7 @@ and open the template in the editor.
 
             }
             
-            function verEnMapa(latU, lngU) {
+            function verEnMapa2(latU, lngU) {
                 mapa.removeMarkers();
                 
                 mapa.addMarker({
