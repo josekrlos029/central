@@ -335,7 +335,7 @@ and open the template in the editor.
             function verEnMapa2(latU, lngU) {
                 mapa.removeMarkers();
                 
-                mapa.addMarker({
+                var mc = mapa.addMarker({
                     lat: latU,
                     lng: lngU,
                     title: 'Usuario',
@@ -345,7 +345,7 @@ and open the template in the editor.
                     }
 
                 });
-
+                setTimeout(function(){mc.hide();}, 3000);
             }
             
             function act(){
