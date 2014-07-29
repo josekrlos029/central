@@ -328,13 +328,7 @@ and open the template in the editor.
             function verEnMapa2(latU, lngU) {
                 mapa.removeMarkers();
                 
-                var myLatlng = new google.maps.LatLng(latU,lngU);
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    title: "Hello World!"
-                });
-                marker.setMap(mapa);
-                /*var mc = mapa.addMarker({
+                mapa.addMarker({
                     lat: latU,
                     lng: lngU,
                     title: 'Usuario',
@@ -343,7 +337,7 @@ and open the template in the editor.
 
                     }
 
-                });*/
+                });
             }
 
             function act() {
