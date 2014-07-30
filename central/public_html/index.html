@@ -438,15 +438,13 @@ and open the template in the editor.
                 });
                 if (band == false) {
                     markersMoto.push({nombre: array[2], lat: array[0], lng: array[1], marker: marker });
+                    marker.setMap(mapa);
                 }else{
                     markersMoto[j].marker.setMap(null);
                     markersMoto[j].marker = marker;
                     markersMoto[j].marker.setMap(mapa);
                 }
                 
-                
-
-                mostrarMoto(array[2]);
             }
 
             function mostrarMoto(nombre) {
