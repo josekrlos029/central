@@ -287,6 +287,47 @@ and open the template in the editor.
                 });
 
             }
+            
+            function agregarCategoria() {
+                var $this = $(this),
+                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                        textonly = !!$this.jqmData("textonly");
+                html = $this.jqmData("html") || "";
+                $.mobile.loading("show", {
+                    text: msgText,
+                    textVisible: textVisible,
+                    theme: theme,
+                    textonly: textonly,
+                    html: html
+                });
+
+                var nombre = $("#nombreCat").text();
+
+                var url = "http://tudomicilio.liceogalois.com/restaurante/guardarCategoria";
+                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        idRestaurante: localStorage.getItem("idRestaurante"),
+                        nombre: nombre
+                    }
+                }).done(function(msg) {
+                    var json = eval("(" + msg + ")");
+                    if (json.msj == "exito") {
+                        alert("Producto Agregado Correctamente");
+                        location.href = "mostrarRestaurante.html";
+                    } else if (json.msj == "no") {
+                        alert("Error al guardar Categoría, intenta nuevamente");
+                    } else {
+                        alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+                    }
+                    $.mobile.loading("hide");
+                });
+
+            }
 
             function mostrarRestaurante(idRestaurante) {
 
@@ -314,6 +355,15 @@ and open the template in the editor.
 
             <div role="main" class="ui-content">
                 <h3>Categorías</h3>
+                <div id="gestionCat">
+                    <center><h3>Agregar Categoría</h3></center>
+                    <h4>Agregar Producto</h4>
+                    <div class="ui-field-contain">
+                        <label for="nombreCat"><b>Nombre</b></label>
+                        <input type="text" name="nombreCat" id="nombreCat" value="">
+                    </div>
+                    <a style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" href="#" onclick="agregarCategoria();" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-right">Agregar</a>
+                </div>
                 <div id="cont"></div>
                 <br>
                 <div id="gestion" hidden>
