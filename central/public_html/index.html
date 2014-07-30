@@ -137,7 +137,7 @@ and open the template in the editor.
 
                             // if the notification contains a soundname, play it.
                             if (e.payload.ubicacion) {
-                                alert("...")
+                                alert(e.payload.message);
                                 ubicarMotos(e.payload.message);
                             } else {
                                 alert(e.payload.message);
@@ -420,7 +420,7 @@ and open the template in the editor.
             }
 
             function ubicarMotos(string) {
-
+                alert("1");
                 var array = string.split("/");
                 var band = false;
                 var j ;
@@ -431,12 +431,14 @@ and open the template in the editor.
                         break;
                     }
                 }
+                alert("2");
                 var myLatlng = new google.maps.LatLng(array[0], array[1]);
                 var marker = new google.maps.Marker({
                     position: myLatlng,
                     icon: "recursos/marker-servicio.png",
                     title: array[2]
                 });
+                alert("3");
                 if (band == false) {
                     markersMoto.push({nombre: array[2], lat: array[0], lng: array[1], marker: marker });
                     marker.setMap(mapa);
