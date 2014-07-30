@@ -299,7 +299,41 @@ and open the template in the editor.
                             title: json.sPendientes[i].nombre
                         });
                         var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.sPendientes[i].nombreUsuario + ' ' +  json.sPendientes[i].apellidoUsuario + '</h3><p><b>Dirección: </b>' + json.sPendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.sPendientes[i].referencia + '</p>'
+                            content: '<h3>' + json.sPendientes[i].nombreUsuario + ' ' +  json.sPendientes[i].apellidoUsuario + ' ('+ json.sPendientes[i].nombre +' - Pendiente)</h3><p><b>Dirección: </b>' + json.sPendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.sPendientes[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
+                        });
+                    }
+                    
+                    for (var i = 0; i < json.sAceptados.length; i++) {
+                        var myLatlng = new google.maps.LatLng(json.sAceptados[i].latUsuario, json.sAceptados[i].lngUsuario);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            animation: google.maps.Animation.DROP,
+                            icon: "recursos/marker-servicio.png",
+                            map: mapa,
+                            title: json.sAceptados[i].nombre
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.sAceptados[i].nombreUsuario + ' ' +  json.sAceptados[i].apellidoUsuario + ' ('+ json.sAceptados[i].nombre +' - Pendiente)</h3><p><b>Dirección: </b>' + json.sAceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.sAceptados[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
+                        });
+                    }
+                    
+                    for (var i = 0; i < json.sListos.length; i++) {
+                        var myLatlng = new google.maps.LatLng(json.sListos[i].latUsuario, json.sListos[i].lngUsuario);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            animation: google.maps.Animation.DROP,
+                            icon: "recursos/marker-servicio.png",
+                            map: mapa,
+                            title: json.sListos[i].nombre
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.sListos[i].nombreUsuario + ' ' +  json.sListos[i].apellidoUsuario + ' ('+ json.sListos[i].nombre +' - Pendiente)</h3><p><b>Dirección: </b>' + json.sListos[i].direccion + '</p><p><b>Referencia: </b>' + json.sListos[i].referencia + '</p>'
                         });
                         google.maps.event.addListener(marker, 'click', function() {
                             infowindow.open(mapa, marker);
