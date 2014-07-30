@@ -205,17 +205,12 @@ and open the template in the editor.
 
             function ubicarMapa(lat, lng) {
 
-                mapa = new GMaps({
-                    div: '#mapa',
-                    lat: lat,
-                    lng: lng,
+                var mapOptions = {
+                    center: new google.maps.LatLng(lat, lng),
                     zoom: 14,
-                    zoomControl: true,
-                    panControl: true,
-                    streetViewControl: true,
-                    mapTypeControl: true
-                });
-
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                mapa = new google.maps.Map(document.getElementById("mapa"), mapOptions);
                 ubicarPedidos();
 
             }
@@ -242,46 +237,55 @@ and open the template in the editor.
                     url: url,
                     data: {}
                 }).done(function(msg) {
-                    mapa.removePolylines();
-                    mapa.removeMarkers();
+
                     var json = eval("(" + msg + ")");
                     for (var i = 0; i < json.pendientes.length; i++) {
-                        mapa.addMarker({
-                            lat: json.pendientes[i].latRestaurante,
-                            lng: json.pendientes[i].lngRestaurante,
-                            title: json.pendientes[i].nombreRestaurante,
+                        var myLatlng = new google.maps.LatLng(json.pendientes[i].latRestaurante, json.pendientes[i].lngRestaurante);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
                             animation: google.maps.Animation.DROP,
                             icon: "recursos/marker-pendiente.png",
-                            infoWindow: {
-                                content: '<h3>' + json.pendientes[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.pendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.pendientes[i].referencia + '</p>'
-                            }
-
+                            map: mapa,
+                            title: json.pendientes[i].nombreRestaurante
                         });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.pendientes[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.pendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.pendientes[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
+                        });
+
                     }
                     for (var i = 0; i < json.aceptados.length; i++) {
-                        mapa.addMarker({
-                            lat: json.aceptados[i].latRestaurante,
-                            lng: json.aceptados[i].lngRestaurante,
-                            title: json.aceptados[i].nombreRestaurante,
+                       var myLatlng = new google.maps.LatLng(json.aceptados[i].latRestaurante, json.aceptados[i].lngRestaurante);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
                             animation: google.maps.Animation.DROP,
                             icon: "recursos/marker-aceptado.png",
-                            infoWindow: {
-                                content: '<h3>' + json.aceptados[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.aceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.aceptados[i].referencia + '</p>'
-                            }
-
+                            map: mapa,
+                            title: json.aceptados[i].nombreRestaurante
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.aceptados[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.aceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.aceptados[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
                         });
                     }
                     for (var i = 0; i < json.listos.length; i++) {
-                        mapa.addMarker({
-                            lat: json.listos[i].latRestaurante,
-                            lng: json.listos[i].lngRestaurante,
-                            title: json.listos[i].nombreRestaurante,
+                        var myLatlng = new google.maps.LatLng(json.listos[i].latRestaurante, json.listos[i].lngRestaurante);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
                             animation: google.maps.Animation.DROP,
                             icon: "recursos/marker-listo.png",
-                            infoWindow: {
-                                content: '<h3>' + json.listos[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.listos[i].direccion + '</p><p><b>Referencia: </b>' + json.listos[i].referencia + '</p>'
-                            }
-
+                            map: mapa,
+                            title: json.listos[i].nombreRestaurante
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.listos[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.listos[i].direccion + '</p><p><b>Referencia: </b>' + json.listos[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
                         });
                     }
                     $.mobile.loading("hide");
@@ -327,7 +331,7 @@ and open the template in the editor.
 
             function verEnMapa2(latU, lngU) {
                 mapa.removeMarkers();
-                
+
                 mapa.addMarker({
                     lat: latU,
                     lng: lngU,
