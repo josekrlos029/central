@@ -45,58 +45,60 @@ and open the template in the editor.
 
             var mapa;
             var markersArray = [];
-            function onDeviceReady() {
+            var markersMoto = {}
+            :
+                    function onDeviceReady() {
 
-                var $this = $(this),
-                        theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
-                        msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
-                        textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
-                        textonly = !!$this.jqmData("textonly");
-                html = $this.jqmData("html") || "";
-                $.mobile.loading("show", {
-                    text: msgText,
-                    textVisible: textVisible,
-                    theme: theme,
-                    textonly: textonly,
-                    html: html
-                });
+                        var $this = $(this),
+                                theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
+                                msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
+                                textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
+                                textonly = !!$this.jqmData("textonly");
+                        html = $this.jqmData("html") || "";
+                        $.mobile.loading("show", {
+                            text: msgText,
+                            textVisible: textVisible,
+                            theme: theme,
+                            textonly: textonly,
+                            html: html
+                        });
 
-                var pushNotification = window.plugins.pushNotification;
+                        var pushNotification = window.plugins.pushNotification;
 
-                if (device.platform == 'android' || device.platform == 'Android')
-                {
-                    //PARA ANDROID
-                    pushNotification.register(
-                            successHandler,
-                            errorHandler, {
-                                "senderID": "616270198580", //ID del proyecto  (Debes crear un proyecto en google developers -> https://console.developers.google.com/project )
-                                "ecb": "onNotificationGCM"  //Metodo cuando llega una notificación
-                            });
-                }
-                else
-                {
-                    //Para IOS
-                    pushNotification.register(
-                            tokenHandler,
-                            errorHandler, {
-                                "badge": "true",
-                                "sound": "true",
-                                "alert": "true",
-                                "ecb": "onNotificationAPN"
-                            });
-                }
+                        if (device.platform == 'android' || device.platform == 'Android')
+                        {
+                            //PARA ANDROID
+                            pushNotification.register(
+                                    successHandler,
+                                    errorHandler, {
+                                        "senderID": "616270198580", //ID del proyecto  (Debes crear un proyecto en google developers -> https://console.developers.google.com/project )
+                                        "ecb": "onNotificationGCM"  //Metodo cuando llega una notificación
+                                    });
+                        }
+                        else
+                        {
+                            //Para IOS
+                            pushNotification.register(
+                                    tokenHandler,
+                                    errorHandler, {
+                                        "badge": "true",
+                                        "sound": "true",
+                                        "alert": "true",
+                                        "ecb": "onNotificationAPN"
+                                    });
+                        }
 
-                cargarPedidios();
-                $("#mapa").height($(document).height() - $("#header").height());
-                $("#contenedor").height($(document).height() - $("#header").height());
-                var tamContenedor = $(document).width() / 3.5;
-                $("#contenedor").width(tamContenedor);
-                $("#mapa").width($(document).width() - tamContenedor);
-                var lat = '10.465874';
-                var lng = '-73.253153';
-                ubicarMapa(lat, lng);
+                        cargarPedidios();
+                        $("#mapa").height($(document).height() - $("#header").height());
+                        $("#contenedor").height($(document).height() - $("#header").height());
+                        var tamContenedor = $(document).width() / 3.5;
+                        $("#contenedor").width(tamContenedor);
+                        $("#mapa").width($(document).width() - tamContenedor);
+                        var lat = '10.465874';
+                        var lng = '-73.253153';
+                        ubicarMapa(lat, lng);
 
-            }
+                    }
 
             function tokenHandler(result) {
                 // Your iOS push server needs to know the token before it can push to this device
@@ -416,6 +418,47 @@ and open the template in the editor.
                 cargarPedidios();
             }
 
+            function ubicarMotos(string) {
+
+                var array = string.split("/");
+                var band = false;
+                var j ;
+                for (var i in markersMoto) {
+                    if (markersMoto[i].nombre == array[2]) {
+                        band = true;
+                        j=1;
+                        break;
+                    }
+                }
+                var myLatlng = new google.maps.LatLng(array[0], array[1]);
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    icon: "recursos/marker-servicio.png",
+                    title: array[2]
+                });
+                if (band == false) {
+                    markersMoto.push({nombre: array[2], lat: array[0], lng: array[1], marker: marker });
+                }else{
+                    markersMoto[j].marker.setMap(null);
+                    markersMoto[j].marker = marker;
+                    markersMoto[j].marker.setMap(mapa);
+                }
+                
+                
+
+                mostrarMoto(array[2]);
+            }
+
+            function mostrarMoto(nombre) {
+                for (var i in markersMoto) {
+                    if (markersMoto[i].nombre == nombre) {
+
+
+
+                        break;
+                    }
+                }
+            }
         </script>
     </head>
     <body>
