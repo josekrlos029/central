@@ -287,7 +287,25 @@ and open the template in the editor.
                         google.maps.event.addListener(marker, 'click', function() {
                             infowindow.open(mapa, marker);
                         });
+                    } 
+                    
+                    for (var i = 0; i < json.sPendientes.length; i++) {
+                        var myLatlng = new google.maps.LatLng(json.sPendientes[i].latUsuario, json.sPendientes[i].lngUsuario);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            animation: google.maps.Animation.DROP,
+                            icon: "recursos/marker-servicio.png",
+                            map: mapa,
+                            title: json.sPendientes[i].nombre
+                        });
+                        var infowindow = new google.maps.InfoWindow({
+                            content: '<h3>' + json.sPendientes[i].nombreUsuario + ' ' +  json.sPendientes[i].apellidoUsuario + '</h3><p><b>Dirección: </b>' + json.sPendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.sPendientes[i].referencia + '</p>'
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(mapa, marker);
+                        });
                     }
+                    
                     $.mobile.loading("hide");
 
                 });
