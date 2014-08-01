@@ -425,13 +425,13 @@ and open the template in the editor.
                 var j ;
                 for (var i in markersMoto) {
                     if (markersMoto[i].nombre == array[2]) {
-                        markersMoto[i].marker.setMap(null);
+                        alert("entraIfFor");
                         band = true;
                         j=1;
                         break;
                     }
                 }
-                
+                alert("1");
                 var myLatlng = new google.maps.LatLng(array[0], array[1]);
                 var marker = new google.maps.Marker({
                     position: myLatlng,
@@ -439,12 +439,16 @@ and open the template in the editor.
                     title: array[2],
                     map:mapa
                 });
-                
+                alert("2");
                 if (band == false) {
+                    alert("entra");
                     markersMoto.push({nombre: array[2], lat: array[0], lng: array[1], marker: marker });
+                    alert("sale");
                 }else{
+                    alert("entra2");
                     markersMoto[j].marker.setMap(null);
                     markersMoto[j].marker = marker;
+                    alert("sale2");
                     
                 }
                 
