@@ -45,7 +45,7 @@ and open the template in the editor.
 
             var mapa;
             var markersArray = [];
-            var markersMoto =  new Array();
+            var markersMoto =  [];
  
                     function onDeviceReady() {
 
@@ -421,13 +421,12 @@ and open the template in the editor.
             function ubicarMotos(string) {
                 
                 var array = string.split("/");
-                
+                var band = false;
+                var j;
                 for (var i in markersMoto) {
-                    var band = false;
-                    var j;
-                    if (markersMoto[i][0] == array[2]) {
-                        alert(markersMoto[i][0]);
-                        markersMoto[i][1].marker.setMap(null);
+                    
+                    if (markersMoto[i].title == array[2]) {
+                        markersMoto[i].setMap(null);
                         band = true;
                         j=i;
                         break;
@@ -446,15 +445,11 @@ and open the template in the editor.
                 
                 if (band == false) {
                     
-                    markersMoto.push(new Array(array[2], marker));
+                    markersMoto.push(marker);
                     
-                }else{
-                    alert("entra2");
-                    alert(markersMoto[i][0]);
-                    markersMoto[j][1].setMap(null);
-                    markersMoto[j][1] = marker;
+                }else{ 
+                    markersMoto[j] = marker;
                     alert("sale2");
-                    
                 }
                 
             }
