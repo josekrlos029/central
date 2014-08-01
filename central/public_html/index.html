@@ -45,7 +45,7 @@ and open the template in the editor.
 
             var mapa;
             var markersArray = [];
-            var markersMoto = {};
+            var markersMoto = [];
  
                     function onDeviceReady() {
 
@@ -425,6 +425,7 @@ and open the template in the editor.
                 var j ;
                 for (var i in markersMoto) {
                     if (markersMoto[i].nombre == array[2]) {
+                        markersMoto[i].marker.setMap(null);
                         band = true;
                         j=1;
                         break;
