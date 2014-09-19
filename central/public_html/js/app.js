@@ -151,7 +151,7 @@ function entregado() {
         }
         $("#close5").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
     });
 }
 
@@ -180,7 +180,7 @@ function aceptar() {
         }
         $("#close1").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
 
     });
 }
@@ -210,7 +210,7 @@ function rechazar() {
     });
     $("#close2").click();
     cargarPedidios();
-    ubicarPedidos();
+    //ubicarPedidos();
 
 }
 
@@ -238,7 +238,7 @@ function cancelar() {
         }
         $("#close3").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
     });
 }
 
@@ -267,7 +267,7 @@ function listo() {
         }
         $("#close4").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
 
     });
 }
@@ -297,7 +297,7 @@ function listo2() {
         }
         $("#close7").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
 
     });
 }
@@ -328,7 +328,7 @@ function entregado2() {
         }
         $("#close8").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
     });
 }
 
@@ -356,7 +356,7 @@ function aceptar2() {
         }
         $("#close6").click();
         cargarPedidios();
-        ubicarPedidos();
+        //ubicarPedidos();
 
     });
 }
