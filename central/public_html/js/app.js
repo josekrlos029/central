@@ -68,6 +68,7 @@ function cargarPedidios() {
         url: url,
         data: data
     }).done(function(msg) {
+        $("#contenido").hide();
         $("#contenido").html(msg);
         setTimeout(function() {
             $('#lista1').trigger('create');
@@ -80,6 +81,7 @@ function cargarPedidios() {
             //$('.boton').button('refresh');
             $(".l1").trigger('create');
             $(".l2").trigger('create');
+            $("#contenido").show();
             $.mobile.loading("hide");
         }, 1000);
 
