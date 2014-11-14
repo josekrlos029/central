@@ -164,6 +164,7 @@ function aceptar() {
     
     var data = {
         idDomicilio: idDomicilio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "a"
     };
     var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoDomicilio";
