@@ -13,9 +13,11 @@ function atras() {
 function update() {
 
     var regid = localStorage.getItem("regId");
+    var idCentral = localStorage.getItem("idCentral");
 
     var data = {
-        regId: regid
+        regId: regid,
+        idCentral: idCentral
     };
 
     var url = "http://admin.tudomicilio.net/restaurante/updateRegIdCentral";
