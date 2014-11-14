@@ -180,7 +180,7 @@ and open the template in the editor.
                     html: html
                 });
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/listaCategorias";
+                var url = "http://admin.tudomicilio.net/restaurante/listaCategorias";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
@@ -220,7 +220,7 @@ and open the template in the editor.
                 $("#cat").text(nombre);
                 $("#idCategoria").val(id);
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/listaProductos";
+                var url = "http://admin.tudomicilio.net/restaurante/listaProductos";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
@@ -262,7 +262,7 @@ and open the template in the editor.
                 var nombre = $("#cat").text();
                 var idCategoria = $("#idCategoria").val();
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/guardarProducto";
+                var url = "http://admin.tudomicilio.net/restaurante/guardarProducto";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
@@ -305,7 +305,7 @@ and open the template in the editor.
 
                 var nombre = $("#nombreCat").val();
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/guardarCategoria";
+                var url = "http://admin.tudomicilio.net/restaurante/guardarCategoria";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",

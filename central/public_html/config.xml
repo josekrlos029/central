@@ -2,7 +2,7 @@
 <widget xmlns		= "http://www.w3.org/ns/widgets"
         xmlns:gap	= "http://phonegap.com/ns/1.0"
         id		= "com.Nimble.central"
-        version 	= "1.0.0">
+        version 	= "1.1.0">
 
     <name>Central Tu domicilio</name>
 
@@ -15,7 +15,7 @@
         José Carlos Jimenez Montenegro 
     </author>
 
-    <preference name="phonegap-version" value="3.5.0" />
+    <preference name="phonegap-version" value="3.6.3" />
     
     <icon src="image/IconoAndroid.png" gap:role="default" />
 	<icon src="image/IconoAndroid.png" width="96" height="96" />

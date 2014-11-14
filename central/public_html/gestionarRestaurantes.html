@@ -181,7 +181,7 @@ and open the template in the editor.
                     html: html
                 });
 
-                var url = "http://tudomicilio.liceogalois.com/restaurante/listaRestaurantes";
+                var url = "http://admin.tudomicilio.net/restaurante/listaRestaurantes";
                 //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
                 $.ajax({
                     type: "POST",
@@ -193,9 +193,9 @@ and open the template in the editor.
 
                             for (var i = 0; i < json.length; i++) {
                                 if (json[i].estado == "a"){
-                                    $("#lista").append('<li><a href="#" onclick="mostrarRestaurante(' + json[i].id + ')"><img src="http://tudomicilio.liceogalois.com/utiles/imagenes/restaurantes/' + json[i].id + '.png"><h2>' + json[i].nombre + '</h2><p>' + json[i].descripcion + '</p></a></li>');
+                                    $("#lista").append('<li><a href="#" onclick="mostrarRestaurante(' + json[i].id + ')"><img src="http://admin.tudomicilio.net/utiles/imagenes/restaurantes/' + json[i].id + '.png"><h2>' + json[i].nombre + '</h2><p>' + json[i].descripcion + '</p></a></li>');
                                 }else if (json[i].estado == "c") {
-                                    $("#lista").append('<li><a href="#" onclick="mostrarRestaurante(' + json[i].id + ')"><img src="http://tudomicilio.liceogalois.com/utiles/imagenes/restaurantes/' + json[i].id + '.png"><h2>' + json[i].nombre + ' <span style="font-size: 9px"> (cerrado) </span></h2><p>' + json[i].descripcion + '</p></a></li>');
+                                    $("#lista").append('<li><a href="#" onclick="mostrarRestaurante(' + json[i].id + ')"><img src="http://admin.tudomicilio.net/utiles/imagenes/restaurantes/' + json[i].id + '.png"><h2>' + json[i].nombre + ' <span style="font-size: 9px"> (cerrado) </span></h2><p>' + json[i].descripcion + '</p></a></li>');
                                 }
                             }
                             setTimeout(function() {

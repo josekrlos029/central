@@ -15,211 +15,20 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/style.css" />
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/jquery.mobile-1.4.2.min.js"></script>
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDPo5D9SzKfVzIImE3dIVRFfL28zcMPjyc&sensor=true&libraries=geometry"></script>
-        <script src="js/gmaps.js"></script>
         <script src="js/app.js"></script>
         <script src="phonegap.js" type="text/javascript"></script>
         <script type="text/javascript" charset="utf-8" src="PushNotification.js"></script>   
         <script>
-
             document.addEventListener("deviceready", onDeviceReady, false);
-            document.addEventListener("backbutton", onBackKeyDown, false);
 
-            function onBackKeyDown() {
-
-
-                navigator.notification.confirm(
-                        'Deseas salir de la aplicación ?', // message
-                        onConfirm, // callback to invoke with index of button pressed
-                        'Salir', // title
-                        ['Salir', 'Cancelar']     // buttonLabels
-                        );
-
+            function onDeviceReady() {
+                
+                if(localStorage.getItem("idCentral")!= null && localStorage.getItem("idCentral")!= ""){
+                    location.href = "mostrarPedidos.html";
+                }  
             }
-
-            function onConfirm(buttonIndex) {
-                if (buttonIndex == 1) {
-                    navigator.app.exitApp();
-                }
-            }
-
-            var mapa;
-            var markersArray = [];
-            var markersMoto =  [];
- 
-                    function onDeviceReady() {
-
-                        var $this = $(this),
-                                theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
-                                msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
-                                textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
-                                textonly = !!$this.jqmData("textonly");
-                        html = $this.jqmData("html") || "";
-                        $.mobile.loading("show", {
-                            text: msgText,
-                            textVisible: textVisible,
-                            theme: theme,
-                            textonly: textonly,
-                            html: html
-                        });
-
-                        var pushNotification = window.plugins.pushNotification;
-
-                        if (device.platform == 'android' || device.platform == 'Android')
-                        {
-                            //PARA ANDROID
-                            pushNotification.register(
-                                    successHandler,
-                                    errorHandler, {
-                                        "senderID": "616270198580", //ID del proyecto  (Debes crear un proyecto en google developers -> https://console.developers.google.com/project )
-                                        "ecb": "onNotificationGCM"  //Metodo cuando llega una notificación
-                                    });
-                        }
-                        else
-                        {
-                            //Para IOS
-                            pushNotification.register(
-                                    tokenHandler,
-                                    errorHandler, {
-                                        "badge": "true",
-                                        "sound": "true",
-                                        "alert": "true",
-                                        "ecb": "onNotificationAPN"
-                                    });
-                        }
-
-                        cargarPedidios();
-                        //$("#mapa").height($(document).height() - $("#header").height());
-                        //$("#contenedor").height($(document).height() - $("#header").height());
-                        //var tamContenedor = $(document).width() / 3.5;
-                        //$("#contenedor").width(tamContenedor);
-                        //$("#mapa").width($(document).width() - tamContenedor);
-                        //var lat = '10.465874';
-                        //var lng = '-73.253153';
-                        //ubicarMapa(lat, lng);
-
-                    }
-
-            function tokenHandler(result) {
-                // Your iOS push server needs to know the token before it can push to this device
-                // here is where you might want to send it the token for later use.
-                localStorage.setItem("token", result);
-            }
-
-
-            function successHandler(result) {
-                //alert('result = ' + result);
-            }
-
-            function errorHandler(error) {
-                alert('error = ' + error);
-            }
-
-            function onNotificationGCM(e) {
-
-                switch (e.event)
-                {
-                    case 'registered':
-                        if (e.regid.length > 0)
-                        {
-                            localStorage.setItem("regId", e.regid);
-                            update();
-                        }
-                        break;
-
-                    case 'message':
-                        // if this flag is set, this notification happened while we were in the foreground.
-                        // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-                        if (e.foreground)
-                        {
-
-                            //$("#app-status-ul").append('<li>--INLINE NOTIFICATION--' + '</li>');
-
-                            // if the notification contains a soundname, play it.
-                            if (e.payload.ubicacion) {
-                                //ubicarMotos(e.payload.message2);
-                            } else {
-                                alert(e.payload.message);
-                                cargarPedidios();
-                                //ubicarPedidos();
-                            }
-
-
-                        }
-                        else
-                        {  // otherwise we were launched because the user touched a notification in the notification tray.
-
-                            if (e.coldstart)
-                            {
-                                //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                                if (e.payload.ubicacion) {
-                                    //ubicarMotos(e.payload.message2);
-                                } else {
-
-                                    cargarPedidios();
-                                    //ubicarPedidos();
-                                }
-                            }
-                            else
-                            {
-                                //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                                if (e.payload.ubicacion) {
-                                    //ubicarMotos(e.payload.message2);
-                                } else {
-
-                                    cargarPedidios();
-                                    //ubicarPedidos();
-                                }
-                            }
-                        }
-                        //alert(e.payload.message + ",  " + e.payload.otro ); 
-                        //$("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
-                        //$("#app-status-ul").append('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
-                        break;
-
-                    case 'error':
-                        alert('Error: ' + e.msg);
-                        break;
-
-                    default:
-                        //$("#app-status-ul").append('<li>EVENT -> Unknown, an event was received and we do not know what it is</li>');
-                        break;
-                }
-
-            }
-
-            function onNotificationAPN(event) {
-                if (event.alert)
-                {
-                    navigator.notification.alert(event.alert);
-                }
-
-                if (event.sound)
-                {
-                    var snd = new Media(event.sound);
-                    snd.play();
-                }
-
-                if (event.badge)
-                {
-                    pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
-                }
-            }
-
-            function ubicarMapa(lat, lng) {
-
-                var mapOptions = {
-                    center: new google.maps.LatLng(lat, lng),
-                    zoom: 14,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                mapa = new google.maps.Map(document.getElementById("mapa"), mapOptions);
-                ubicarPedidos();
-
-            }
-
-            function ubicarPedidos() {
-                var $this = $(this),
+            function envio(){
+                 var $this = $(this),
                         theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
                         msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
                         textVisible = $this.jqmData("textvisible") || $.mobile.loader.prototype.options.textVisible,
@@ -232,350 +41,51 @@ and open the template in the editor.
                     textonly: textonly,
                     html: html
                 });
-
-                var url = "http://tudomicilio.liceogalois.com/restaurante/listaDomicilios2";
-                //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
+                var data= {
+                    usuario: $("#usuario").val(),
+                    clave: $("#clave").val()
+                };
+                
+                var url = "http://admin.tudomicilio.net/restaurante/loginCentral";
+                //var url = "http://192.168.1.33/domicilios/restaurante/loginRestaurante";
                 $.ajax({
                     type: "POST",
                     url: url,
-                    data: {}
-                }).done(function(msg) {
-
-                    var json = eval("(" + msg + ")");
-                    for (var i = 0; i < json.pendientes.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.pendientes[i].latRestaurante, json.pendientes[i].lngRestaurante);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-pendiente.png",
-                            map: mapa,
-                            title: json.pendientes[i].nombreRestaurante
+                    data: data
+                })
+                        .done(function(msg) {
+                            var json = eval("(" + msg + ")");
+                            if(json.msj== "exito"){
+                                
+                                localStorage.setItem("idCentral", json.id);
+                                location.href = "home.html";
+                                
+                            }else if(json.msj== "no"){
+                                alert("Error al ingresar usuario o contraseña, intenta nuevamente.");
+                            }else{
+                                alert("Error En el servidor");
+                            }
+                            
+                            $.mobile.loading("hide");
+                                
                         });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.pendientes[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.pendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.pendientes[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-                    for (var i = 0; i < json.aceptados.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.aceptados[i].latRestaurante, json.aceptados[i].lngRestaurante);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-aceptado.png",
-                            map: mapa,
-                            title: json.aceptados[i].nombreRestaurante
-                        });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.aceptados[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.aceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.aceptados[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-                    for (var i = 0; i < json.listos.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.listos[i].latRestaurante, json.listos[i].lngRestaurante);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-listo.png",
-                            map: mapa,
-                            title: json.listos[i].nombreRestaurante
-                        });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.listos[i].nombreRestaurante + '</h3><p><b>Dirección: </b>' + json.listos[i].direccion + '</p><p><b>Referencia: </b>' + json.listos[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-
-                    for (var i = 0; i < json.sPendientes.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.sPendientes[i].latUsuario, json.sPendientes[i].lngUsuario);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-servicio.png",
-                            map: mapa,
-                            title: json.sPendientes[i].nombre
-                        });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.sPendientes[i].nombreUsuario + ' ' + json.sPendientes[i].apellidoUsuario + ' (' + json.sPendientes[i].nombre + ' - Pendiente)</h3><p><b>Dirección: </b>' + json.sPendientes[i].direccion + '</p><p><b>Referencia: </b>' + json.sPendientes[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-
-                    for (var i = 0; i < json.sAceptados.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.sAceptados[i].latUsuario, json.sAceptados[i].lngUsuario);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-servicio.png",
-                            map: mapa,
-                            title: json.sAceptados[i].nombre
-                        });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.sAceptados[i].nombreUsuario + ' ' + json.sAceptados[i].apellidoUsuario + ' (' + json.sAceptados[i].nombre + ' - Pendiente)</h3><p><b>Dirección: </b>' + json.sAceptados[i].direccion + '</p><p><b>Referencia: </b>' + json.sAceptados[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-
-                    for (var i = 0; i < json.sListos.length; i++) {
-                        var myLatlng = new google.maps.LatLng(json.sListos[i].latUsuario, json.sListos[i].lngUsuario);
-                        var marker = new google.maps.Marker({
-                            position: myLatlng,
-                            animation: google.maps.Animation.DROP,
-                            icon: "recursos/marker-servicio.png",
-                            map: mapa,
-                            title: json.sListos[i].nombre
-                        });
-                        var infowindow = new google.maps.InfoWindow({
-                            content: '<h3>' + json.sListos[i].nombreUsuario + ' ' + json.sListos[i].apellidoUsuario + ' (' + json.sListos[i].nombre + ' - Pendiente)</h3><p><b>Dirección: </b>' + json.sListos[i].direccion + '</p><p><b>Referencia: </b>' + json.sListos[i].referencia + '</p>'
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            infowindow.open(mapa, marker);
-                        });
-                        markersArray.push(marker);
-                    }
-
-                    $.mobile.loading("hide");
-
-                });
-
-            }
-
-            // Removes the overlays from the map, but keeps them in the array
-            function removeMarkers() {
-                if (markersArray) {
-                    for (var i in markersArray) {
-                        markersArray[i].setMap(null);
-                    }
-                }
-            }
-
-            function verEnMapa(latR, lngR, latU, lngU) {
-                removeMarkers();
-                mapa.addMarker({
-                    lat: latR,
-                    lng: lngR,
-                    title: 'Restaurante',
-                    animation: google.maps.Animation.DROP,
-                    click: function(e) {
-
-                    }
-
-                });
-
-                mapa.addMarker({
-                    lat: latU,
-                    lng: lngU,
-                    title: 'Usuario',
-                    animation: google.maps.Animation.DROP,
-                    click: function(e) {
-
-                    }
-
-                });
-
-                mapa.drawRoute({
-                    origin: [latR, lngR],
-                    destination: [latU, lngU],
-                    travelMode: 'driving',
-                    strokeColor: '#131540',
-                    strokeOpacity: 0.6,
-                    strokeWeight: 6
-                });
-
-            }
-
-            function verEnMapa2(latU, lngU) {
-                removeMarkers();
-                mapa.addMarker({
-                    lat: latU,
-                    lng: lngU,
-                    title: 'Usuario',
-                    animation: google.maps.Animation.DROP,
-                    click: function(e) {
-
-                    }
-
-                });
-            }
-
-            function act() {
-                //removeMarkers();
-                //ubicarPedidos();
-                cargarPedidios();
-            }
-
-            function ubicarMotos(string) {
-                
-                var array = string.split("/");
-                var band = false;
-                var j;
-                for (var i in markersMoto) {
-                    
-                    if (markersMoto[i].title == array[2]) {
-                        markersMoto[i].setMap(null);
-                        band = true;
-                        j=i;
-                        break;
-                    }
-                }
-                
-                var myLatlng = new google.maps.LatLng(array[0], array[1]);
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    icon: "recursos/marker-moto.png",
-                    title: array[2],
-                    map:mapa
-                });
-                
-                if (band == false) {
-                    markersMoto.push(marker);
-                    
-                }else{ 
-                    markersMoto[j] = marker;
-                }
                 
             }
-
+            
         </script>
     </head>
     <body>
         <div data-role="page" id="pagina">
-            <div data-role="header" id="header" data-position="fixed" data-fullscreen="false">
-                <a href="#menu" style="border: none; background-color: #cc0000; box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline">Menù</a>
+            <div data-role="header">
                 <h3>Tu Domicilio</h3>
-                <a href="#" onclick="act()" style="border: none; background-color: #cc0000;  box-shadow: none;" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-notext ui-btn-a ui-btn-inline">Buscar</a>
             </div>
-
-            <div data-role="panel" data-display="overlay" id="menu">
-                <ul data-role="listview">
-                    <li data-icon="home"><a data-ajax="false" href="index.html">Inicio</a></li>
-                    <li data-icon="shop"><a id="iniciar" data-ajax="false" href="gestionarRestaurantes.html">Restaurantes</a></li>
-                    <li data-icon="power"><a data-ajax="false" id="cerrar" href="#" onclick="cerrarSesion()">Cerrar Sesión</a></li>
-                </ul>
-            </div><!-- /panel -->
-
-            <div role="main" class="ui-content" style="padding: 0">
-                <!--<div id="mapa" style="width: 100%; float: left"></div>-->
-                <div id="contenedor" style="width: 100%;overflow-y: scroll;//float: right;">
-                    <!--<center><a href="#" onclick="ubicarPedidos()" class="ui-btn ui-shadow ui-corner-all ui-icon-location ui-btn-icon-right boton">Ubicar Pedidos</a></center>-->
-                    <div id="central"></div>
-                    <div data-role="tabs" id="tabs"> 
-                        <div data-role="navbar" id="nav">
-                            <ul>
-                                <li><a style="font-size: 11px" id="uno" href="#one" data-ajax="false">Pendientes</a></li>
-                                <li><a style="font-size: 11px" href="#two" data-ajax="false">Aceptados</a></li>
-                                <li><a style="font-size: 11px" href="#three" data-ajax="false">Listos</a></li>
-                            </ul>
-                        </div>
-                        <div id="contenido"></div>
-                    </div>
-                    <div data-role="popup" id="popupAceptar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close1" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
-                            <input type="hidden" value="" id="idAceptar">
-                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="aceptar()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
-                        </div>
-
-                    </div>
-
-                    <div data-role="popup" id="popupListo" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close4" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
-                            <input type="hidden" value="" id="idListo">
-                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="listo()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
-                        </div>
-
-                    </div>
-
-                    <div data-role="popup" id="popupRechazar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close2" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de Rechazar la solicitud?</h3>
-                            <input type="hidden" value="" id="idRechazar">
-                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="rechazar()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
-                        </div>
-
-                    </div>
-                    <div data-role="popup" id="popupCancelar" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close3" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de Cancelar la solicitud?</h3>
-                            <input type="hidden" value="" id="idCancelar">
-                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="cancelar()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
-                        </div>
-
-                    </div>
-                    <div data-role="popup" id="popupEntregado" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close5" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de Cancelar la solicitud?</h3>
-                            <input type="hidden" value="" id="idEntregado">
-                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="entregado()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
-                        </div>
-
-                    </div>
-                    <div data-role="popup" id="popupAceptar2" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close6" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
-                            <input type="hidden" value="" id="idAceptar2">
-                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="aceptar2()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
-                        </div>
-
-                    </div>
-
-                    <div data-role="popup" id="popupListo2" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close7" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de aceptar la solicitud?</h3>
-                            <input type="hidden" value="" id="idListo2">
-                            <button style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="listo2()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-delete" >Cancelar</button>
-                        </div>
-
-                    </div>
-
-                    <div data-role="popup" id="popupEntregado2" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
-
-                        <div style="padding:10px 20px;">
-                            <a href="#" data-rel="back" id="close8" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                            <h3>¿Estas seguro de Cancelar la solicitud?</h3>
-                            <input type="hidden" value="" id="idEntregado2">
-                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="entregado2()">Aceptar</button>
-                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
-                        </div>
-
-                    </div>
-                </div>
+            <div role="main" class="ui-content">
+                <h3>Iniciar Sesión</h3>
+                <label for="correo" class="ui-hidden-accessible">Text Input:</label>
+                <input type="text" name="usuario" id="usuario" placeholder="Usuario" value="">
+                <label for="clave" class="ui-hidden-accessible">Text Input:</label>
+                <input type="password" name="clave" id="clave" placeholder="Contraseña" value="">
+                <a style="background-color: #84aa1f; color: white; text-decoration: none;text-shadow: none" href="#" onclick="envio();" data-ajax="false" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-right">Iniciar Seción</a>
             </div>
 
         </div>
