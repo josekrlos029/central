@@ -134,6 +134,7 @@ function entregado() {
     var idDomicilio = $("#idEntregado").val();
     var data = {
         idDomicilio: idDomicilio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "e"
     };
     
