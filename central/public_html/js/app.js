@@ -261,7 +261,7 @@ function listo() {
         url: url,
         data: data
     }).done(function(msg) {
-
+        alert(msg);
         var json = eval("(" + msg + ")");
         if (json.msj == "exito") {
             alert("Domicilio Listo, Se le notificará al cliente la novedad !");
