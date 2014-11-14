@@ -194,6 +194,7 @@ function rechazar() {
     var idDomicilio = $("#idRechazar").val();
     var data = {
         idDomicilio: idDomicilio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "n"
     };
     var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoDomicilio";
@@ -223,6 +224,7 @@ function cancelar() {
     var idDomicilio = $("#idCancelar").val();
     var data = {
         idDomicilio: idDomicilio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "c"
     };
     var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoDomicilio";
@@ -251,6 +253,7 @@ function listo() {
     var idDomicilio = $("#idListo").val();
     var data = {
         idDomicilio: idDomicilio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "l"
     };
     
@@ -281,6 +284,7 @@ function listo2() {
     var idServicio = $("#idListo2").val();
     var data = {
         idServicio: idServicio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "l"
     };
     
@@ -312,6 +316,7 @@ function entregado2() {
     var idServicio = $("#idEntregado2").val();
     var data = {
         idServicio: idServicio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "e"
     };
     
@@ -341,6 +346,7 @@ function aceptar2() {
     var idServicio = $("#idAceptar2").val();
     var data = {
         idServicio: idServicio,
+        idCentral: localStorage.getItem("idCentral"),
         estado: "a"
     };
     var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoServicio";
