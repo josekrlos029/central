@@ -91,7 +91,7 @@ and open the template in the editor.
                         cargarPedidios();
                         $("#mapa").height($(document).height() - $("#header").height());
                         $("#contenedor").height($(document).height() - $("#header").height());
-                        var tamContenedor = $(document).width() / 3.5;
+                        var tamContenedor = $(document).width() / 3;
                         $("#contenedor").width(tamContenedor);
                         $("#mapa").width($(document).width() - tamContenedor);
                         var lat = '10.465874';
@@ -463,7 +463,6 @@ and open the template in the editor.
             <div data-role="panel" data-display="overlay" id="menu">
                 <ul data-role="listview">
                     <li data-icon="home"><a data-ajax="false" href="index.html">Inicio</a></li>
-                    <li data-icon="shop"><a id="iniciar" data-ajax="false" href="gestionarRestaurantes.html">Restaurantes</a></li>
                     <li data-icon="power"><a data-ajax="false" id="cerrar" href="#" onclick="cerrarSesion()">Cerrar Sesión</a></li>
                 </ul>
             </div><!-- /panel -->
@@ -571,6 +570,19 @@ and open the template in the editor.
                             <h3>¿Estas seguro de Cancelar la solicitud?</h3>
                             <input type="hidden" value="" id="idEntregado2">
                             <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="entregado2()">Aceptar</button>
+                            <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
+                        </div>
+
+                    </div>
+                    
+                    <div data-role="popup" id="popupAsignarMensajero" data-dismissible="false" data-overlay-theme="b" data-theme="b" class="ui-corner-all">
+
+                        <div style="padding:10px 20px;">
+                            <a href="#" data-rel="back" id="close8" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                            <h3>Asignar Mensajero</h3>
+                            <select id="mensajero"></select>
+                            <input type="hidden" value="" id="idDomi">
+                            <button class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" onclick="asignar()">Asignar</button>
                             <button data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-right ui-icon-check" >Cancelar</button>
                         </div>
 

@@ -42,6 +42,54 @@ function update() {
 
 }
 
+function listaMensajeros(){
+    
+    var data = {
+       idCentral: localStorage.getItem("idCentral")
+    };
+
+    var url = "http://admin.tudomicilio.net/restaurante/listarMensajeros";
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    })
+            .done(function(msg) {
+                $("#mensajero").val(msg);
+    });
+    
+}
+
+function updateMensajeroDomicilio(idDomicilio) {
+
+    var idMensajero = $("#mensajero").val();
+
+    var data = {
+        idMensajero: idMensajero,
+        idDomicilio: idDomicilio
+    };
+
+    var url = "http://admin.tudomicilio.net/restaurante/asignarMensajero";
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    })
+            .done(function(msg) {
+                var json = eval("(" + msg + ")");
+                if (json.msj == "exito") {
+                    alert("Solicitud Procesada Correctamente");
+
+                } else if (json.msj == "no") {
+                    alert("Error al Asignar Mensajero al Domicilio, Intenta nuevamente");
+                } else {
+                    alert("Error en el servidor, intenta nuevamente. ");
+                }
+            });
+}
+
 function cargarPedidios() {
 
     var $this = $(this),
@@ -58,10 +106,10 @@ function cargarPedidios() {
         html: html
     });
 
-    var idRestaurante = localStorage.getItem("idRestaurante");
+    var idCentral = localStorage.getItem("idCentral");
 
     var data = {
-        idRestaurante: idRestaurante
+        idCentral: idCentral
     };
     var url = "http://admin.tudomicilio.net/restaurante/listaDomicilios";
     //var url = "http://192.168.1.33/domicilios/restaurante/domicilios";
@@ -127,6 +175,14 @@ function popListo2(idServicio) {
 
 function popEntregado2(idServicio) {
     $("#idEntregado2").val(idServicio);
+}
+
+function popAsignarDomicilio(idDomicilio) {
+    $("#idDomi").val(idDomicilio);
+}
+
+function popAsignarServicio(idServicio) {
+    $("#idServ").val(idServicio);
 }
 
 function entregado() {
@@ -372,3 +428,31 @@ function aceptar2() {
 
     });
 }
+
+function verEnMapa(latR, lngR, latU, lngU) {
+                removeMarkers();
+                mapa.addMarker({
+                    lat: latR,
+                    lng: lngR,
+                    title: 'Restaurante',
+                    animation: google.maps.Animation.DROP,
+                    click: function(e) {
+                    }
+                });
+                mapa.addMarker({
+                    lat: latU,
+                    lng: lngU,
+                    title: 'Usuario',
+                    animation: google.maps.Animation.DROP,
+                    click: function(e) {
+                    }
+                });
+                mapa.drawRoute({
+                    origin: [latR, lngR],
+                    destination: [latU, lngU],
+                    travelMode: 'driving',
+                    strokeColor: '#131540',
+                    strokeOpacity: 0.6,
+                    strokeWeight: 6
+                });
+            }
