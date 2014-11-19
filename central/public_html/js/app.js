@@ -67,7 +67,9 @@ function updateMensajeroDomicilio() {
 
     var idMensajero = $("#mensajero").val();
     var idDomicilio = $("#idDomi").val();
-
+    
+    alert("m="+idMensajero+" d="+idDomicilio);
+    
     var data = {
         idMensajero: idMensajero,
         idDomicilio: idDomicilio
