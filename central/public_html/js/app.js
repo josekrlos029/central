@@ -86,7 +86,8 @@ function updateMensajeroDomicilio() {
                 var json = eval("(" + msg + ")");
                 if (json.msj == "exito") {
                     alert("Solicitud Procesada Correctamente");
-
+                    $("#close9").click();
+                    cargarPedidios();
                 } else if (json.msj == "no") {
                     alert("Error al Asignar Mensajero al Domicilio, Intenta nuevamente");
                 } else {
