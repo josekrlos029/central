@@ -57,8 +57,8 @@ function listaMensajeros(){
         data: data
     })
             .done(function(msg) {
-                alert(msg);
-                $("#mensajero").val(msg);
+                
+                $("#mensajero").html(msg);
     });
     
 }
