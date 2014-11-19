@@ -179,10 +179,12 @@ function popEntregado2(idServicio) {
 
 function popAsignarDomicilio(idDomicilio) {
     $("#idDomi").val(idDomicilio);
+    listaMensajeros();
 }
 
 function popAsignarServicio(idServicio) {
     $("#idServ").val(idServicio);
+    listaMensajeros();
 }
 
 function entregado() {
