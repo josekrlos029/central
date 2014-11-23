@@ -120,7 +120,7 @@ function cargarPedidios() {
     });
 
     var idCentral = localStorage.getItem("idCentral");
-
+    alert(idCentral);
     var data = {
         idCentral: idCentral
     };
