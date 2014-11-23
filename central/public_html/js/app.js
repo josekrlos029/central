@@ -64,7 +64,7 @@ function listaMensajeros(){
         data: data
     })
             .done(function(msg) {
-                
+                alert(msg);
                 $("#mensajero").html(msg);
     });
     
@@ -120,7 +120,7 @@ function cargarPedidios() {
     });
 
     var idCentral = localStorage.getItem("idCentral");
-    alert(idCentral);
+    
     var data = {
         idCentral: idCentral
     };
