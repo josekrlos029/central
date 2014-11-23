@@ -10,6 +10,13 @@ function atras() {
     history.back();
 }
 
+function cerrarSesion(){
+    
+    localStorage.setItem("idCentral", "");
+    location.href= "index.html";
+    
+}
+
 function update() {
 
     var regid = localStorage.getItem("regId");
