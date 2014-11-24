@@ -64,7 +64,7 @@ function listaMensajeros(){
         data: data
     })
             .done(function(msg) {
-                alert(msg);
+               
                 $("#mensajero").html(msg);
     });
     
@@ -74,15 +74,19 @@ function updateMensajeroDomicilio() {
 
     var idMensajero = $("#mensajero").val();
     var idDomicilio = $("#idDomi").val();
-    
-    alert("m="+idMensajero+" d="+idDomicilio);
+    var tipo = $("#tipoModulo").val();
     
     var data = {
         idMensajero: idMensajero,
-        idDomicilio: idDomicilio
+        id: idDomicilio
     };
-
-    var url = "http://admin.tudomicilio.net/restaurante/asignarMensajero";
+    
+    if (tipo== "domicilio"){
+        var url = "http://admin.tudomicilio.net/restaurante/asignarMensajero";
+    }else{
+        var url = "http://admin.tudomicilio.net/restaurante/asignarMensajeroServicio";
+    }
+    
     
     $.ajax({
         type: "POST",
@@ -90,6 +94,7 @@ function updateMensajeroDomicilio() {
         data: data
     })
             .done(function(msg) {
+                
                 var json = eval("(" + msg + ")");
                 if (json.msj == "exito") {
                     alert("Solicitud Procesada Correctamente");
@@ -190,8 +195,9 @@ function popEntregado2(idServicio) {
     $("#idEntregado2").val(idServicio);
 }
 
-function popAsignarDomicilio(idDomicilio) {
+function popAsignarDomicilio(idDomicilio, tipo) {
     $("#idDomi").val(idDomicilio);
+    $("#tipoModulo").val(tipo);
     var $this = $(this),
             theme = $this.jqmData("theme") || $.mobile.loader.prototype.options.theme,
             msgText = $this.jqmData("msgtext") || $.mobile.loader.prototype.options.text,
