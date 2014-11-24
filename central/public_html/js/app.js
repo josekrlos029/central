@@ -86,7 +86,7 @@ function updateMensajeroDomicilio() {
     }else{
         var url = "http://admin.tudomicilio.net/restaurante/asignarMensajeroServicio";
     }
-    
+    alert(tipo+": "+url);
     
     $.ajax({
         type: "POST",
@@ -94,7 +94,7 @@ function updateMensajeroDomicilio() {
         data: data
     })
             .done(function(msg) {
-                
+                alert(msg);
                 var json = eval("(" + msg + ")");
                 if (json.msj == "exito") {
                     alert("Solicitud Procesada Correctamente");
