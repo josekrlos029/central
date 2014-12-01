@@ -136,11 +136,11 @@ and open the template in the editor.
 
                             // if the notification contains a soundname, play it.
                             if (e.payload.ubicacion) {
-                                //ubicarMotos(e.payload.message2);
+                                ubicarMotos(e.payload.message2);
                             } else {
                                 alert(e.payload.message);
                                 cargarPedidios();
-                                //ubicarPedidos();
+                                ubicarPedidos();
                             }
 
 
@@ -152,22 +152,22 @@ and open the template in the editor.
                             {
                                 //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
                                 if (e.payload.ubicacion) {
-                                    //ubicarMotos(e.payload.message2);
+                                    ubicarMotos(e.payload.message2);
                                 } else {
 
                                     cargarPedidios();
-                                    //ubicarPedidos();
+                                    ubicarPedidos();
                                 }
                             }
                             else
                             {
                                 //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
                                 if (e.payload.ubicacion) {
-                                    //ubicarMotos(e.payload.message2);
+                                    ubicarMotos(e.payload.message2);
                                 } else {
 
                                     cargarPedidios();
-                                    //ubicarPedidos();
+                                    ubicarPedidos();
                                 }
                             }
                         }
@@ -412,8 +412,8 @@ and open the template in the editor.
             }
 
             function act() {
-                //removeMarkers();
-                //ubicarPedidos();
+                removeMarkers();
+                ubicarPedidos();
                 cargarPedidios();
             }
 
