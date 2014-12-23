@@ -474,7 +474,7 @@ function aceptar2() {
 }
 
 function rechazar2() {
-    var idServicio = $("#idAceptar2").val();
+    var idServicio = $("#idRechazar2").val();
     var data = {
         idServicio: idServicio,
         idCentral: localStorage.getItem("idCentral"),
@@ -504,7 +504,7 @@ function rechazar2() {
 }
 
 function cancelar2() {
-    var idServicio = $("#idAceptar2").val();
+    var idServicio = $("#idCancelar2").val();
     var data = {
         idServicio: idServicio,
         idCentral: localStorage.getItem("idCentral"),
