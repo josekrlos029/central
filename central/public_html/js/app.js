@@ -16,6 +16,36 @@ function cerrarSesion(){
     location.href= "index.html";
 }
 
+function consultarEstado(){
+    
+    
+    var idCentral = localStorage.getItem("idCentral");
+
+    var data = {
+        idCentral: idCentral
+    };
+
+    var url = "http://admin.tudomicilio.net/restaurante/consultarEstadoCentral";
+    //var url = "http://192.168.1.33/domicilios/restaurante/updateRegId";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    })
+            .done(function(msg) {
+                var json = eval("(" + msg + ")");
+                if (json.estado == 1) {
+                   // alert(json.alerta);
+                   $("#cambiarEst").html("Cerrar Central");
+                }if (json.estado == 0) { 
+                    $("#cambiarEst").html("Abrir Central");
+                }else {
+                   $("#cambiarEst").hide();
+                } 
+
+            });
+}
+
 function cambiarEstadoCentral(){
     
      var $this = $(this),
@@ -49,6 +79,7 @@ function cambiarEstadoCentral(){
                 var json = eval("(" + msg + ")");
                 if (json.msj == "exito") {
                     alert(json.alerta);
+                    consultarEstado();
                     $.mobile.loading("hide");
                 } else if (json.msj == "no") {
                     alert("Error al cambiar estado ");
