@@ -14,7 +14,34 @@ function cerrarSesion(){
     
     localStorage.setItem("idCentral", "");
     location.href= "index.html";
-    
+}
+
+function cambiarEstadoCentral(){
+    var idCentral = localStorage.getItem("idCentral");
+
+    var data = {
+        idCentral: idCentral
+    };
+
+    var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoCentral";
+    //var url = "http://192.168.1.33/domicilios/restaurante/updateRegId";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    })
+            .done(function(msg) {
+                var json = eval("(" + msg + ")");
+                if (json.msj == "exito") {
+                    alert(json.alerta);
+
+                } else if (json.msj == "no") {
+                    alert("Error al cambiar estado ");
+                } else {
+                    alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+                }
+
+            });
 }
 
 function update() {
