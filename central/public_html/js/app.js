@@ -171,9 +171,19 @@ function popRechazar(idDomicilio) {
     $("#idRechazar").val(idDomicilio);
 }
 
+function popRechazar2(idServicio) {
+    
+    $("#idRechazar2").val(idServicio);
+}
+
 function popCancelar(idDomicilio) {
     
     $("#idCancelar").val(idDomicilio);
+}
+
+function popCancelar2(idServicio) {
+    
+    $("#idCancelar2").val(idServicio);
 }
 
 function popListo(idDomicilio) {
@@ -462,6 +472,68 @@ function aceptar2() {
 
     });
 }
+
+function rechazar2() {
+    var idServicio = $("#idAceptar2").val();
+    var data = {
+        idServicio: idServicio,
+        idCentral: localStorage.getItem("idCentral"),
+        estado: "n"
+    };
+    var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoServicio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Aceptado, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+        $("#close6").click();
+        cargarPedidios();
+        //ubicarPedidos();
+
+    });
+}
+
+function cancelar2() {
+    var idServicio = $("#idAceptar2").val();
+    var data = {
+        idServicio: idServicio,
+        idCentral: localStorage.getItem("idCentral"),
+        estado: "c"
+    };
+    var url = "http://admin.tudomicilio.net/restaurante/cambiarEstadoServicio";
+    //var url = "http://192.168.1.33/domicilios/restaurante/cambiarEstadoDomicilio";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data
+    }).done(function(msg) {
+
+        var json = eval("(" + msg + ")");
+        if (json.msj == "exito") {
+            alert("Domicilio Aceptado, Se le notificará al cliente la novedad !");
+        } else if (json.msj == "no") {
+            alert("Error en el servidor, intenta nuevamente");
+        } else {
+            alert("Error en el servidor, contactate con la empresa TuDomicilio ");
+        }
+        $("#close6").click();
+        cargarPedidios();
+        //ubicarPedidos();
+
+    });
+}
+
+
 
 function verEnMapa(latR, lngR, latU, lngU) {
                 removeMarkers();
