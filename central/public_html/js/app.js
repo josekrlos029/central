@@ -496,7 +496,7 @@ function rechazar2() {
         } else {
             alert("Error en el servidor, contactate con la empresa TuDomicilio ");
         }
-        $("#close6").click();
+        $("#close33").click();
         cargarPedidios();
         //ubicarPedidos();
 
@@ -526,7 +526,7 @@ function cancelar2() {
         } else {
             alert("Error en el servidor, contactate con la empresa TuDomicilio ");
         }
-        $("#close6").click();
+        $("#close22").click();
         cargarPedidios();
         //ubicarPedidos();
 
