@@ -37,7 +37,7 @@ function consultarEstado(){
                 if (json.estado == 1) {
                    // alert(json.alerta);
                    $("#cambiarEst").html("<p>Cerrar Central</p>");
-                }if (json.estado == 0) { 
+                }else if (json.estado == 0) { 
                     $("#cambiarEst").html("<p>Abrir Central</p>");
                 }else {
                    $("#cambiarEst").hide();
